@@ -1,2 +1,2 @@
 # party-games-bot
-a remake of my original party games discord bot in typescript
+a monorepo of my first typescript project, a party games discord bot
