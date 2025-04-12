@@ -1,0 +1,31 @@
+{
+  "name": "party-games-bot",
+  "version": "1.0.0",
+  "description": "a remake of my original party games discord bot in typescript",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cairaaa/party-games-bot.git"
+  },
+  "keywords": [],
+  "author": "cai",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/cairaaa/party-games-bot/issues"
+  },
+  "homepage": "https://github.com/cairaaa/party-games-bot#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "eslint": "^9.24.0",
+    "typescript": "^5.8.3"
+  },
+  "workspaces": [
+    "bot",
+    "client",
+    "server"
+  ]
+}
