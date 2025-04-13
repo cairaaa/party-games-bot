@@ -9,7 +9,8 @@ export interface LeaderboardPlayerInterface {
 }
 
 export interface LeaderboardInterface extends Document {
-  stat: string;
+  minigame: string;
+  type: string;
   players: LeaderboardPlayerInterface[];
   createdAt: Date;
   updatedAt: Date;
@@ -26,11 +27,11 @@ const LeaderboardPlayerSchema = new Schema<LeaderboardPlayerInterface>(
 
 const LeaderboardSchema = new Schema<LeaderboardInterface>(
   {
-    stat: { type: String, required: true, unique: true },
+    minigame: { type: String, required: true },
+    type: { type: String, required: true },
     players: [LeaderboardPlayerSchema]
   },
   { timestamps: true }
 );
 
-export const LeaderboardPlayerModel = model<LeaderboardPlayerInterface>("leaderboardPlayer", LeaderboardPlayerSchema);
 export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
