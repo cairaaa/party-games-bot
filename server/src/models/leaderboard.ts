@@ -32,5 +32,5 @@ const LeaderboardSchema = new Schema<LeaderboardInterface>(
   { timestamps: true }
 );
 
-export const LeaderboardPlayerModel = model<LeaderboardPlayerInterface>("leaderboard-player", LeaderboardPlayerSchema);
+export const LeaderboardPlayerModel = model<LeaderboardPlayerInterface>("leaderboardPlayer", LeaderboardPlayerSchema);
 export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
