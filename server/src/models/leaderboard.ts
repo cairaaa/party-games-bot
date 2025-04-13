@@ -1,6 +1,6 @@
 import { model, Document, Schema } from "mongoose";
 
-interface PlayerInterface {
+export interface LeaderboardPlayerInterface {
   _id: string;
   username: string;
   value: number;
@@ -8,14 +8,14 @@ interface PlayerInterface {
   updatedAt: Date;
 }
 
-interface LeaderboardInterface extends Document {
+export interface LeaderboardInterface extends Document {
   stat: string;
-  players: PlayerInterface[];
+  players: LeaderboardPlayerInterface[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-const PlayerSchema = new Schema<PlayerInterface>(
+const LeaderboardPlayerSchema = new Schema<LeaderboardPlayerInterface>(
   {
     _id: { type: String, required: true },
     username: { type: String, required: true },
@@ -27,10 +27,10 @@ const PlayerSchema = new Schema<PlayerInterface>(
 const LeaderboardSchema = new Schema<LeaderboardInterface>(
   {
     stat: { type: String, required: true, unique: true },
-    players: [PlayerSchema]
+    players: [LeaderboardPlayerSchema]
   },
   { timestamps: true }
 );
 
-const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
-export default LeaderboardModel;
+export const LeaderboardPlayerModel = model<LeaderboardPlayerInterface>("leaderboard-player", LeaderboardPlayerSchema);
+export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);

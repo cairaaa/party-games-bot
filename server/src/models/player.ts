@@ -1,6 +1,6 @@
 import { model, Document, Schema } from "mongoose";
 
-interface PlayerInterface extends Document {
+export interface PlayerInterface extends Document {
   _id: string;
   username: string;
   stats: {
@@ -115,6 +115,4 @@ const PlayerSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-
-const PlayerModel = model<PlayerInterface>("player", PlayerSchema);
-export default PlayerModel;
+export const PlayerModel = model<PlayerInterface>("player", PlayerSchema);
