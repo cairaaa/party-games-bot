@@ -52,6 +52,14 @@ export interface PlayerInterface extends Document {
       volcano: number;
       workshop: number;
     };
+    totals: {
+      animalSlaughterKills: number;
+      diveScore: number;
+      highGroundScore: number;
+      hoeHoeHoeScore: number;
+      lawnMoowerScore: number;
+      rpg16Kills: number;
+    };
   };
   createdAt: Date;
   updatedAt: Date;
@@ -109,8 +117,16 @@ const PlayerSchema: Schema = new Schema(
         trampolinio: { type: Number, required: true },
         volcano: { type: Number, required: true },
         workshop: { type: Number, required: true },
+      },
+      totals: {
+        animalSlaughterKills: { type: Number, required: true },
+        diveScore: { type: Number, required: true },
+        highGroundScore: { type: Number, required: true },
+        hoeHoeHoeScore: { type: Number, required: true },
+        lawnMoowerScore: { type: Number, required: true },
+        rpg16Kills: { type: Number, required: true }
       }
-    }
+    },
   },
   { timestamps: true }
 );
