@@ -1,3 +1,4 @@
+import { getPlayer } from "../api/api";
 import { PlayerInterface, PlayerModel } from "../models/player";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,4 +68,21 @@ export function convertToPlayerModel(apiData: any): PlayerInterface {
     updatedAt: new Date
   };
   return new PlayerModel(playerStats);
+}
+
+export async function savePlayerModel(name: string): Promise<void> {
+  try {
+    const apiData = await getPlayer(name);
+    const playerData = convertToPlayerModel(apiData);
+    const existing = await PlayerModel.findById(playerData._id);
+    if (existing) {
+      await PlayerModel.findByIdAndUpdate(playerData._id, playerData);
+    } else {
+      const newPlayer = new PlayerModel(playerData);
+      await newPlayer.save();
+    }
+  } catch (error) {
+    console.log("couldn't store/save player in database");
+    throw error;
+  }
 }
