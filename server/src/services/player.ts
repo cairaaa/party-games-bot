@@ -63,9 +63,7 @@ export function convertToPlayerModel(apiData: any): PlayerInterface {
         lawnMoowerScore: apiData?.stats?.Arcade?.lawn_moower_mowed_total_score_party ?? 0,
         rpg16Kills: apiData?.stats?.Arcade?.rpg_16_kills_party ?? 0
       }
-    },
-    createdAt: new Date,
-    updatedAt: new Date
+    }
   };
   return new PlayerModel(playerStats);
 }
