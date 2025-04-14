@@ -1,6 +1,5 @@
-import { getPlayer } from "../api/api";
 import { PlayerModel } from "../models/player";
-import { LeaderboardPlayerInterface, LeaderboardInterface, LeaderboardModel } from "../models/leaderboard";
+import { LeaderboardPlayerInterface, LeaderboardModel } from "../models/leaderboard";
 
 const minigamesArray = [
   "animalSlaughter",
@@ -117,20 +116,22 @@ export async function saveLeaderboardAll(name: string): Promise<void> {
       }
       const value = statsCategory[statKey as keyof typeof statsCategory];
 
-      const leaderboardPlayer = {
-        _id: player._id,
-        username: player.username,
-        value: value
-      };
-      
+      const existing = lb.players.find((p: LeaderboardPlayerInterface) => p._id === player._id);
+      if (existing) {
+        existing.username = player.username;
+        existing.value = value;
+      } else {
+        const leaderboardPlayer = {
+          _id: player._id,
+          username: player.username,
+          value: value
+        };
+        lb.players.push(leaderboardPlayer);
+      }
+      await lb.save();
     }
   } catch (error) {
     console.log("couldn't store leaderboard values in database");
     throw error;
   }
 }
-
-
-
-
-
