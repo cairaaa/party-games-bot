@@ -1,5 +1,4 @@
 import { LeaderboardModel } from "../models/leaderboard"; 
-import { connectToDatabase } from "../database/db";
 
 // only run this script once to set up lbs!!!
 
