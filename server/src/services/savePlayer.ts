@@ -1,4 +1,3 @@
-import { getPlayer } from "../api/api";
 import { PlayerModel, PlayerType } from "../models/player";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,22 +72,20 @@ export function convertToPlayerModel(apiData: any): PlayerType {
   return playerStats;
 }
 
-export async function savePlayer(name: string): Promise<void> {
+export async function savePlayer(data: PlayerType): Promise<void> {
   try {
-    const apiData = await getPlayer(name);
-    const playerData = convertToPlayerModel(apiData);
-    const existing = await PlayerModel.findById(playerData._id);
+    const existing = await PlayerModel.findById(data._id);
     if (existing) {
       // not ai at all!!!
       // i couldnt get __v to incrememnt by myself :(
-      const { _id, ...updateData } = playerData;
+      const { _id, ...updateData } = data;
       await PlayerModel.findByIdAndUpdate(
         _id, 
         { $set: updateData, $inc: { __v: 1 } }, 
         { new: true }
       );
     } else {
-      const newPlayer = new PlayerModel(playerData);
+      const newPlayer = new PlayerModel(data);
       await newPlayer.save();
     }
   } catch (error) {
