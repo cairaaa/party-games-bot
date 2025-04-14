@@ -1,7 +1,7 @@
-import { PlayerModel, PlayerType } from "../models/player";
+import { PlayerInterface, PlayerModel } from "../models/player";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function convertToPlayerModel(apiData: any): PlayerType {
+export function convertToPlayerModel(apiData: any): PlayerInterface {
   const totalWins: number = (
     (apiData?.stats?.Arcade?.wins_party ?? 0) +
     (apiData?.stats?.Arcade?.wins_party_2 ?? 0) +
@@ -69,10 +69,10 @@ export function convertToPlayerModel(apiData: any): PlayerType {
       }
     }
   };
-  return playerStats;
+  return new PlayerModel(playerStats);
 }
 
-export async function savePlayer(data: PlayerType): Promise<void> {
+export async function savePlayer(data: PlayerInterface): Promise<void> {
   try {
     const existing = await PlayerModel.findById(data._id);
     if (existing) {

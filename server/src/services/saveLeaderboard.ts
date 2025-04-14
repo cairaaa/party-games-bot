@@ -104,7 +104,7 @@ export async function saveLeaderboardAll(name: string): Promise<void> {
 
     const now = new Date();
     const updatedAt = player.updatedAt;
-    const time = now.getTime() - updatedAt.getTime();
+    const time = now.getTime() - updatedAt!.getTime();
     if (time > 5000) {
       throw new Error("the function getPlayer has to be called recently before storing lbs");
     }
