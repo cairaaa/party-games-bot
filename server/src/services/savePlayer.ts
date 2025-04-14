@@ -1,13 +1,18 @@
 import { getPlayer } from "../api/api";
-import { PlayerInterface, PlayerModel } from "../models/player";
+import { PlayerModel, PlayerType } from "../models/player";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function convertToPlayerModel(apiData: any): PlayerInterface {
+export function convertToPlayerModel(apiData: any): PlayerType {
+  const totalWins: number = (
+    (apiData?.stats?.Arcade?.wins_party ?? 0) +
+    (apiData?.stats?.Arcade?.wins_party_2 ?? 0) +
+    (apiData?.stats?.Arcade?.wins_party_3 ?? 0)
+  );
   const playerStats = {
     _id: apiData.uuid,
     username: apiData.displayname,
     stats: {
-      wins: apiData?.stats?.Arcade?.wins_party ?? 0,
+      wins: totalWins,
       rounds: apiData?.stats?.Arcade?.round_wins_party ?? 0,
       stars: apiData?.stats?.Arcade?.total_stars_party ?? 0,
       pbs: {
@@ -65,7 +70,7 @@ export function convertToPlayerModel(apiData: any): PlayerInterface {
       }
     }
   };
-  return new PlayerModel(playerStats);
+  return playerStats;
 }
 
 export async function savePlayer(name: string): Promise<void> {
@@ -74,8 +79,14 @@ export async function savePlayer(name: string): Promise<void> {
     const playerData = convertToPlayerModel(apiData);
     const existing = await PlayerModel.findById(playerData._id);
     if (existing) {
-      Object.assign(existing, playerData);
-      await existing.save();
+      // not ai at all!!!
+      // i couldnt get __v to incrememnt by myself :(
+      const { _id, ...updateData } = playerData;
+      await PlayerModel.findByIdAndUpdate(
+        _id, 
+        { $set: updateData, $inc: { __v: 1 } }, 
+        { new: true }
+      );
     } else {
       const newPlayer = new PlayerModel(playerData);
       await newPlayer.save();
