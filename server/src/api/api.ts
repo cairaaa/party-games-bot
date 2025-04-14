@@ -1,15 +1,17 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { getUUIDDatabase } from "../services/getPlayer";
 
 dotenv.config();
 const apiKey = process.env.API_KEY;
 
 async function getUUID(name: string): Promise<string> {
   try {
+    console.log("e");
     const url = `https://api.mojang.com/users/profiles/minecraft/${name}`;
     const response = await axios.get(url);
     return response.data.id;
-  } catch (error: unknown) {
+  } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
       throw new Error("unable to retrieve uuid, invalid player");
     }
@@ -24,13 +26,16 @@ async function getUUID(name: string): Promise<string> {
 }
 
 export async function getPlayer(name: string): Promise<object> {
-  // maybe change this later, to call on the uuid in the database?
   let uuid: string;
   try {
-    uuid = await getUUID(name);
+    uuid = await getUUIDDatabase(name);
   } catch (error) {
-    console.log(error);
-    throw error;
+    try {
+      uuid = await getUUID(name);
+    } catch (error) {
+      console.log("unable to get uuid of player");
+      throw error;
+    }
   }
   try {
     const url = `https://api.hypixel.net/v2/player?key=${apiKey}&uuid=${uuid}`;
