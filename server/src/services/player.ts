@@ -74,7 +74,8 @@ export async function savePlayer(name: string): Promise<void> {
     const playerData = convertToPlayerModel(apiData);
     const existing = await PlayerModel.findById(playerData._id);
     if (existing) {
-      await PlayerModel.findByIdAndUpdate(playerData._id, playerData);
+      Object.assign(existing, playerData);
+      await existing.save();
     } else {
       const newPlayer = new PlayerModel(playerData);
       await newPlayer.save();
