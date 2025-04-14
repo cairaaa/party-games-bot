@@ -68,7 +68,7 @@ export function convertToPlayerModel(apiData: any): PlayerInterface {
   return new PlayerModel(playerStats);
 }
 
-export async function savePlayerModel(name: string): Promise<void> {
+export async function savePlayer(name: string): Promise<void> {
   try {
     const apiData = await getPlayer(name);
     const playerData = convertToPlayerModel(apiData);
