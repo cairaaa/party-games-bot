@@ -1,0 +1,136 @@
+import { getPlayer } from "../api/api";
+import { PlayerModel } from "../models/player";
+import { LeaderboardPlayerInterface, LeaderboardInterface, LeaderboardModel } from "../models/leaderboard";
+
+const minigamesArray = [
+  "animalSlaughter",
+  "anvilSpleef",
+  "avalanche",
+  "bombardment",
+  "cannonPainting",
+  "chickenRings",
+  "dive",
+  "fireLeapers",
+  "frozenFloor",
+  "highGround",
+  "hoeHoeHoe",
+  "jigsawRush",
+  "jungleJump",
+  "labEscape",
+  "lawnMoower",
+  "minecartRacing",
+  "pigFishing",
+  "pigJousting",
+  "rpg16",
+  "shootingRange",
+  "spiderMaze",
+  "superSheep",
+  "theFloorIsLava",
+  "trampolinio",
+  "volcano",
+  "workshop"
+] as const;
+
+const lbTypesArray = [
+  "pbs",
+  "miniWins",
+  "totals"
+] as const;
+
+type Minigame = typeof minigamesArray[number];
+type LbType = typeof lbTypesArray[number];
+
+const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
+  pbs: {
+    anvilSpleef: "anvilSpleefTime",
+    bombardment: "bombardmentTime",
+    chickenRings: "chickenRingsTime",
+    jigsawRush: "jigsawRushTime",
+    jungleJump: "jungleJumpTime",
+    labEscape: "labEscapeTime",
+    minecartRacing: "minecartRacingTime",
+    spiderMaze: "spiderMazeTime",
+    theFloorIsLava: "theFloorIsLavaTime",
+    animalSlaughter: "animalSlaughterScore",
+    dive: "diveScore",
+    highGround: "highGroundScore",
+    hoeHoeHoe: "hoeHoeHoeScore",
+    lawnMoower: "lawnMoowerScore",
+    rpg16: "rpg16Score",
+  },
+  miniWins: {
+    animalSlaughter: "animalSlaughter",
+    anvilSpleef: "anvilSpleef",
+    avalanche: "avalanche",
+    bombardment: "bombardment",
+    cannonPainting: "cannonPainting",
+    chickenRings: "chickenRings",
+    dive: "dive",
+    fireLeapers: "fireLeapers",
+    frozenFloor: "frozenFloor",
+    highGround: "highGround",
+    hoeHoeHoe: "hoeHoeHoe",
+    jigsawRush: "jigsawRush",
+    jungleJump: "jungleJump",
+    labEscape: "labEscape",
+    lawnMoower: "lawnMoower",
+    minecartRacing: "minecartRacing",
+    pigFishing: "pigFishing",
+    pigJousting: "pigJousting",
+    rpg16: "rpg16",
+    shootingRange: "shootingRange",
+    spiderMaze: "spiderMaze",
+    superSheep: "superSheep",
+    theFloorIsLava: "theFloorIsLava",
+    trampolinio: "trampolinio",
+    volcano: "volcano",
+    workshop: "workshop",
+  },
+  totals: {
+    animalSlaughter: "animalSlaughterKills",
+    dive: "diveScore",
+    highGround: "highGroundScore",
+    hoeHoeHoe: "hoeHoeHoeScore",
+    lawnMoower: "lawnMoowerScore",
+    rpg16: "rpg16Kills",
+  }
+};
+
+export async function saveLeaderboardAll(name: string): Promise<void> {
+  try {
+    const player = await PlayerModel.findOne({ username:name });
+    if (!player) {
+      throw new Error("player could not be found in the database, please add the player first");
+    }
+    const leaderboards = await LeaderboardModel.find({});
+    for (const lb of leaderboards) {
+      // my best attempt to avoid typescript any errors...
+      const lbType = lb.type as LbType;
+      const lbMinigame = lb.minigame as Minigame;
+      const statKey = statsMap[lbType][lbMinigame];
+      if (!statKey) {
+        throw new Error(`couldn't find ${lbType}.${lbMinigame}`);
+      }
+      const statsCategory = player.stats[lbType];
+      if (!statsCategory) {
+        throw new Error(`couldn't find the category ${lbType}`);
+      }
+      const value = statsCategory[statKey as keyof typeof statsCategory];
+
+      const leaderboardPlayer = {
+        _id: player._id,
+        username: player.username,
+        value: value
+      };
+      
+    }
+  } catch (error) {
+    console.log("couldn't store leaderboard values in database");
+    throw error;
+  }
+}
+
+
+
+
+
