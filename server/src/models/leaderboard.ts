@@ -4,8 +4,8 @@ export interface LeaderboardPlayerInterface {
   _id: string;
   username: string;
   value: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface LeaderboardInterface extends Document {
