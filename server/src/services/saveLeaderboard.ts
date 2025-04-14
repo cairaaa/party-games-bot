@@ -101,6 +101,14 @@ export async function saveLeaderboardAll(name: string): Promise<void> {
     if (!player) {
       throw new Error("player could not be found in the database, please add the player first");
     }
+
+    const now = new Date();
+    const updatedAt = player.updatedAt;
+    const time = now.getTime() - updatedAt.getTime();
+    if (time > 5000) {
+      throw new Error("the function getPlayer has to be called recently before storing lbs");
+    }
+
     const leaderboards = await LeaderboardModel.find({});
     for (const lb of leaderboards) {
       // my best attempt to avoid typescript any errors...
