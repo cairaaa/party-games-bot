@@ -1,43 +1,6 @@
 import { PlayerModel } from "../models/player";
 import { LeaderboardPlayerInterface, LeaderboardModel } from "../models/leaderboard";
-
-const minigamesArray = [
-  "animalSlaughter",
-  "anvilSpleef",
-  "avalanche",
-  "bombardment",
-  "cannonPainting",
-  "chickenRings",
-  "dive",
-  "fireLeapers",
-  "frozenFloor",
-  "highGround",
-  "hoeHoeHoe",
-  "jigsawRush",
-  "jungleJump",
-  "labEscape",
-  "lawnMoower",
-  "minecartRacing",
-  "pigFishing",
-  "pigJousting",
-  "rpg16",
-  "shootingRange",
-  "spiderMaze",
-  "superSheep",
-  "theFloorIsLava",
-  "trampolinio",
-  "volcano",
-  "workshop"
-] as const;
-
-const lbTypesArray = [
-  "pbs",
-  "miniWins",
-  "totals"
-] as const;
-
-type Minigame = typeof minigamesArray[number];
-type LbType = typeof lbTypesArray[number];
+import { LbType, Minigame } from "../types/types";
 
 const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
   pbs: {
