@@ -36,7 +36,7 @@ export async function getPlayerDatabaseRecent(name: string): Promise<PlayerInter
   const now = new Date();
   const updatedAt = player.updatedAt;
   const time = now.getTime() - updatedAt!.getTime();
-  if (time > 30000) {
+  if (time > 60000) {
     throw new Error("the data is not recent enough to return, please call on the hypixel api");
   }
   return player;
