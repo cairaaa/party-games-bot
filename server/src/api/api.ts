@@ -8,7 +8,6 @@ const apiKey = process.env.API_KEY;
 
 async function getUUID(name: string): Promise<string> {
   try {
-    console.log("e");
     const url = `https://api.mojang.com/users/profiles/minecraft/${name}`;
     const response = await axios.get(url);
     return response.data.id;
@@ -27,14 +26,12 @@ async function getUUID(name: string): Promise<string> {
 }
 
 export async function getPlayer(name: string): Promise<object> {
-  let uuid: string;
-  try {
-    uuid = await getUUIDDatabase(name);
-  } catch (error) {
+  let uuid = await getUUIDDatabase(name);
+  if (!uuid) {
     try {
       uuid = await getUUID(name);
     } catch (error) {
-      console.log("unable to get uuid of player");
+      console.log(`unable to get uuid of ${name}`);
       throw error;
     }
   }
@@ -57,17 +54,16 @@ export async function getPlayer(name: string): Promise<object> {
 }
 
 export async function getStatus(name: string): Promise<StatusData> {
-  let uuid: string;
-  try {
-    uuid = await getUUIDDatabase(name);
-  } catch (error) {
+  let uuid = await getUUIDDatabase(name);
+  if (!uuid) {
     try {
       uuid = await getUUID(name);
     } catch (error) {
-      console.log("unable to get uuid of player");
+      console.log(`unable to get uuid of ${name}`);
       throw error;
     }
   }
+
   try {
     const url = `https://api.hypixel.net/v2/status?key=${apiKey}&uuid=${uuid}`;
     const response = await axios.get(url);
