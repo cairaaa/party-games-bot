@@ -9,7 +9,6 @@ export async function convertToStatusModel(apiData: any): Promise<StatusInterfac
     }
     if (apiData.lastLogin > apiData.lastLogout) {
       const statusData = await getStatus(apiData.displayname);
-      console.log(statusData);
       const playerStatus = {
         _id: apiData.uuid,
         username: apiData.displayname,
