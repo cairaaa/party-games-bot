@@ -1,3 +1,5 @@
+// for random intefaces/types and stuff
+
 const minigamesArray = [
   "animalSlaughter",
   "anvilSpleef",
@@ -36,3 +38,10 @@ const lbTypesArray = [
 ] as const;
 
 export type LbType = typeof lbTypesArray[number];
+
+export interface StatusData {
+  online: boolean;
+  gameType: string;
+  map?: string;
+  mode: string;
+}
