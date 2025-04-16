@@ -1,7 +1,11 @@
 import { PlayerModel, PlayerInterface } from "../models/player";
 
 export async function getUUIDDatabase(name: string): Promise<string> {
-  const player = await PlayerModel.findOne({ username: name });
+  const player = await PlayerModel.findOne(
+    { username: name },
+    null,
+    { collation: { locale: "en", strength: 2 } }
+  );
   if (!player) {
     throw new Error(`player ${name} not found in database, can't get uuid`);
   }
@@ -9,7 +13,11 @@ export async function getUUIDDatabase(name: string): Promise<string> {
 }
 
 export async function getPlayerDatabase(name: string): Promise<PlayerInterface> {
-  const player = await PlayerModel.findOne({ username: name });
+  const player = await PlayerModel.findOne(
+    { username: name },
+    null,
+    { collation: { locale: "en", strength: 2 } }
+  );
   if (!player) {
     throw new Error(`player ${name} not found in database, can't get stats`);
   }
@@ -17,7 +25,11 @@ export async function getPlayerDatabase(name: string): Promise<PlayerInterface> 
 }
 
 export async function getPlayerDatabaseRecent(name: string): Promise<PlayerInterface> {
-  const player = await PlayerModel.findOne({ username: name });
+  const player = await PlayerModel.findOne(
+    { username: name },
+    null,
+    { collation: { locale: "en", strength: 2 } }
+  );
   if (!player) {
     throw new Error(`player ${name} not found in database, can't get stats`);
   }

@@ -60,7 +60,11 @@ const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
 
 export async function saveLeaderboardAll(name: string): Promise<void> {
   try {
-    const player = await PlayerModel.findOne({ username:name });
+    const player = await PlayerModel.findOne(
+      { username: name },
+      null,
+      { collation: { locale: "en", strength: 2 } }
+    );
     if (!player) {
       throw new Error("player could not be found in the database, please add the player first");
     }
