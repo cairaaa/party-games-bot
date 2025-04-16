@@ -13,7 +13,6 @@ export function convertToStatusModel(apiData: any): StatusInterface {
       lastLogout: apiData.lastLogout,
       expiresAt: new Date(Date.now() + 60000)
     };
-    console.log(playerStatus);
     return new StatusModel(playerStatus);
   } catch (error) {
     console.log("couldn't convert the data into a status model");
