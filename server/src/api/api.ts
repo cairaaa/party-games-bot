@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { getUUIDDatabase } from "../services/getPlayer";
+import { StatusData } from "../types/types";
 
 dotenv.config();
 const apiKey = process.env.API_KEY;
@@ -55,13 +56,17 @@ export async function getPlayer(name: string): Promise<object> {
   }
 }
 
-export async function getStatus(name: string): Promise<object> {
+export async function getStatus(name: string): Promise<StatusData> {
   let uuid: string;
   try {
-    uuid = await getUUID(name);
+    uuid = await getUUIDDatabase(name);
   } catch (error) {
-    console.log(error);
-    throw error;
+    try {
+      uuid = await getUUID(name);
+    } catch (error) {
+      console.log("unable to get uuid of player");
+      throw error;
+    }
   }
   try {
     const url = `https://api.hypixel.net/v2/status?key=${apiKey}&uuid=${uuid}`;
