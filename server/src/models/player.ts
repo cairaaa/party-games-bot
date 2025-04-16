@@ -68,7 +68,7 @@ export interface PlayerInterface extends Document {
 const PlayerSchema: Schema = new Schema(
   {
     _id: { type: String, required: true },
-    username: { type: String, required: true, index: true, unique: true },
+    username: { type: String, required: true },
     stats: {
       wins: { type: Number, required: true },
       rounds: { type: Number, required: true },
@@ -129,6 +129,11 @@ const PlayerSchema: Schema = new Schema(
     },
   },
   { timestamps: true }
+);
+
+PlayerSchema.index(
+  { username: 1 },
+  { unique: true, collation: { locale: "en", strength: 2 } }
 );
 
 export const PlayerModel = model<PlayerInterface>("player", PlayerSchema);
