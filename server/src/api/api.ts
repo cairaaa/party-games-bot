@@ -52,7 +52,7 @@ export async function getPlayer(name: string): Promise<object> {
   }
 }
 
-export interface StatusData {
+interface StatusData {
   online: boolean;
   gameType: string;
   map?: string;
