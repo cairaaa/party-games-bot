@@ -17,7 +17,7 @@ export async function sortLeaderboard(
   order: "asc" | "desc" 
   ): Promise<LeaderboardInterface> {
   lb.players = lb.players
-    .filter(p => p.value !== 0)
+    .filter(p => p.value !== 0 && p.banned !== true)
     .sort((a, b) => {
       if (order === "asc") {
         return a.value - b.value;

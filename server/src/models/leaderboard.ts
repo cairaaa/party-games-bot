@@ -4,6 +4,7 @@ export interface LeaderboardPlayerInterface {
   _id: string;
   username: string;
   value: number;
+  banned?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -20,7 +21,8 @@ const LeaderboardPlayerSchema = new Schema<LeaderboardPlayerInterface>(
   {
     _id: { type: String, required: true },
     username: { type: String, required: true },
-    value: { type: Number, required: true }
+    value: { type: Number, required: true },
+    banned: { type: Boolean }
   },
   { timestamps: true }
 );
