@@ -1,7 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { getUUIDDatabase } from "../services/getPlayer";
-import { StatusData } from "../types/types";
 
 dotenv.config();
 const apiKey = process.env.API_KEY;
@@ -51,6 +50,13 @@ export async function getPlayer(name: string): Promise<object> {
     }
     throw new Error("unable to retrieve player data");
   }
+}
+
+export interface StatusData {
+  online: boolean;
+  gameType: string;
+  map?: string;
+  mode: string;
 }
 
 export async function getStatus(name: string): Promise<StatusData> {
