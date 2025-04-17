@@ -1,4 +1,5 @@
 import { model, Document, Schema } from "mongoose";
+import { Minigame, LbType } from "../types/types";
 
 export interface LeaderboardPlayerInterface {
   _id: string;
@@ -10,8 +11,8 @@ export interface LeaderboardPlayerInterface {
 }
 
 export interface LeaderboardInterface extends Document {
-  minigame: string;
-  type: string;
+  minigame: Minigame;
+  type: LbType;
   players: LeaderboardPlayerInterface[];
   createdAt: Date;
   updatedAt: Date;
@@ -36,6 +37,7 @@ const LeaderboardSchema = new Schema<LeaderboardInterface>(
   { timestamps: true }
 );
 
+LeaderboardSchema.index({ "players._id": 1 });
 LeaderboardSchema.index({ "players.username": 1 });
 
 export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
