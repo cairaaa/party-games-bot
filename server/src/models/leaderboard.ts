@@ -36,4 +36,6 @@ const LeaderboardSchema = new Schema<LeaderboardInterface>(
   { timestamps: true }
 );
 
+LeaderboardSchema.index({ "players.username": 1 });
+
 export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
