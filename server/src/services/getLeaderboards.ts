@@ -16,12 +16,14 @@ export async function sortLeaderboard(
   lb: LeaderboardInterface, 
   order: "asc" | "desc" 
   ): Promise<LeaderboardInterface> {
-  lb.players.sort((a, b) => {
-    if (order === "asc") {
-      return a.value - b.value;
-    } else {
-      return b.value - a.value;
-    }
-  });
+  lb.players = lb.players
+    .filter(p => p.value !== 0)
+    .sort((a, b) => {
+      if (order === "asc") {
+        return a.value - b.value;
+      } else {
+        return b.value - a.value;
+      }
+    });
   return lb;
 }
