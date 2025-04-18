@@ -38,3 +38,27 @@ const lbTypesArray = [
 ] as const;
 
 export type LbType = typeof lbTypesArray[number];
+
+const errorArray = [
+  "FORBIDDEN_RESPONSE",
+  "INVALID_PLAYER",
+  "PLAYER_NOT_FOUND",
+  "API_ERROR",
+  "DATABASE_ERROR",
+  "API_DATABASE_ERROR",
+  "RATE_LIMIT_EXCEEDED",
+  "UNKNOWN"
+] as const;
+
+type ErrorTypes = typeof errorArray[number];
+
+export type ApiResponse<T> = {
+  success: true;
+  data: T;
+} | {
+  success: false;
+  error: {
+    message: string;
+    code: ErrorTypes;
+  };
+};
