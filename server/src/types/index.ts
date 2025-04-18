@@ -42,11 +42,12 @@ export type LbType = typeof lbTypesArray[number];
 const errorArray = [
   "FORBIDDEN_RESPONSE",
   "INVALID_PLAYER",
-  "PLAYER_NOT_FOUND",
+  "OUTDATED_DATA",
   "API_ERROR",
   "DATABASE_ERROR",
   "API_DATABASE_ERROR",
   "RATE_LIMIT_EXCEEDED",
+  "API_OFF",
   "UNKNOWN"
 ] as const;
 
