@@ -86,6 +86,15 @@ export async function getPlayer(name: string): Promise<ApiResponse<object>> {
   try {
     const url = `https://api.hypixel.net/v2/player?key=${apiKey}&uuid=${uuid}`;
     const response = await axios.get(url);
+    if (!response.data.player) {
+      return {
+        success: false,
+        error: {
+          message: `Couldn't find a player by the username ${name}`,
+          code: "INVALID_PLAYER"
+        }
+      };
+    }
     return {
       success: true,
       data: response.data.player
@@ -105,9 +114,8 @@ export async function getPlayer(name: string): Promise<ApiResponse<object>> {
         return {
           success: false,
           error: {
-            message: `Unable to retrieve player data for ${name}, ` +
-            `couldn't find data for ${name}`,
-            code: "PLAYER_NOT_FOUND"
+            message: `Couldn't find a player by the username ${name}`,
+            code: "INVALID_PLAYER"
           }
         };
       } else if (error.response?.status === 429) {
@@ -200,9 +208,8 @@ export async function getStatus(name: string): Promise<ApiResponse<StatusData>> 
         return {
           success: false,
           error: {
-            message: `Unable to retrieve player status for ${name}, ` +
-            `couldn't find data for ${name}`,
-            code: "PLAYER_NOT_FOUND"
+            message: `Couldn't find a player by the username ${name}`,
+            code: "INVALID_PLAYER"
           }
         };
       } else if (error.response?.status === 429) {
