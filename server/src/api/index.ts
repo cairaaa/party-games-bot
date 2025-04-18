@@ -106,7 +106,7 @@ export async function getPlayer(name: string): Promise<ApiResponse<object>> {
           success: false,
           error: {
             message: `Unable to retrieve player data for ${name}, ` +
-            "the player has likely logged onto hypixel",
+            `couldn't find data for ${name}`,
             code: "PLAYER_NOT_FOUND"
           }
         };
@@ -201,7 +201,7 @@ export async function getStatus(name: string): Promise<ApiResponse<StatusData>> 
           success: false,
           error: {
             message: `Unable to retrieve player status for ${name}, ` +
-            "the player has likely logged onto hypixel",
+            `couldn't find data for ${name}`,
             code: "PLAYER_NOT_FOUND"
           }
         };
