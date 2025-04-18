@@ -62,6 +62,14 @@ export async function getRankings(name: string): Promise<ApiResponse<RankingInte
         });
         continue;
       }
+      if (player.value === 0) {
+        rankings.push({
+          minigame: lb.minigame,
+          place: null,
+          value: null
+        });
+        continue;
+      }
       const validPlayers = [];
       for (const p of lb.players) {
         if (p.value !== 0 && !p.banned) {
@@ -92,7 +100,9 @@ export async function getRankings(name: string): Promise<ApiResponse<RankingInte
       };
     }
     rankings.sort((a, b) => {
-      if (a.place === null) {
+      if (a.place === null && b.place === null) {
+        return 0; 
+      } else if (a.place === null) {
         return 1;
       } else if (b.place === null) {
         return -1;
