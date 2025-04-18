@@ -13,7 +13,7 @@ export async function getUUIDDatabase(name: string): Promise<ApiResponse<string>
         success: false,
         error: {
           message: `Unable to retrieve ${name} data from the database, please use the api instead`,
-          code: "PLAYER_NOT_FOUND"
+          code: "INVALID_PLAYER"
         }
       };
     }
@@ -44,7 +44,7 @@ export async function getPlayerDatabase(name: string): Promise<ApiResponse<Playe
       success: false,
       error: {
         message: "The player is not in the database, please call on the hypixel api",
-        code: "PLAYER_NOT_FOUND"
+        code: "INVALID_PLAYER"
       }
     };
   }
@@ -65,7 +65,7 @@ export async function getPlayerDatabaseRecent(name: string): Promise<ApiResponse
       success: false,
       error: {
         message: "The player is not in the database, please call on the hypixel api",
-        code: "PLAYER_NOT_FOUND"
+        code: "INVALID_PLAYER"
       }
     };
   }
