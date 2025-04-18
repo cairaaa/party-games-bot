@@ -119,3 +119,24 @@ export async function getRankings(name: string): Promise<ApiResponse<RankingInte
     };
   }
 }
+
+export async function getRealRankings(name: string): Promise<ApiResponse<RankingInterface>> {
+  const rankingsResponse = await getRankings(name);
+  if (!rankingsResponse.success) {
+    return rankingsResponse;
+  }
+  const excludedMinigames: Minigame[] = ["dive", "highGround", "minecartRacing", "rpg16"];
+  const rankings = rankingsResponse.data.rankings;
+  const realRankings = rankings.filter(ranking => 
+    !excludedMinigames.includes(ranking.minigame)
+  );
+  const realData = {
+    _id: rankingsResponse.data._id,
+    username: rankingsResponse.data.username,
+    rankings: realRankings
+  };
+  return {
+    success: true,
+    data: realData
+  };
+}
