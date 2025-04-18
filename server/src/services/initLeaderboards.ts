@@ -54,7 +54,7 @@ const leaderboards = [
   ["rpg16", "totals"]
 ] as const;
 
-async function initializeLeaderboards() {
+async function initializeLeaderboards(): Promise<void> {
   for (const lb of leaderboards) {
     const minigame = lb[0];
     const lbType = lb[1];
