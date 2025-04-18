@@ -88,7 +88,7 @@ const PlayerSchema: Schema = new Schema(
         highGroundScore: { type: Number, required: true },
         hoeHoeHoeScore: { type: Number, required: true },
         lawnMoowerScore: { type: Number, required: true },
-        rpg16Score: { type: Number, required: true },
+        rpg16Score: { type: Number, required: true }
       },
       miniWins: {
         animalSlaughter: { type: Number, required: true },
@@ -116,7 +116,7 @@ const PlayerSchema: Schema = new Schema(
         theFloorIsLava: { type: Number, required: true },
         trampolinio: { type: Number, required: true },
         volcano: { type: Number, required: true },
-        workshop: { type: Number, required: true },
+        workshop: { type: Number, required: true }
       },
       totals: {
         animalSlaughterKills: { type: Number, required: true },
@@ -126,7 +126,7 @@ const PlayerSchema: Schema = new Schema(
         lawnMoowerScore: { type: Number, required: true },
         rpg16Kills: { type: Number, required: true }
       }
-    },
+    }
   },
   { timestamps: true }
 );

@@ -66,7 +66,7 @@ async function initializeLeaderboards(): Promise<void> {
       const leaderboard = new LeaderboardModel({
         minigame: minigame,
         type: lbType,
-        players: [],
+        players: []
       });
       await leaderboard.save();
     }

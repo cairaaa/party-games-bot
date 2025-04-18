@@ -18,7 +18,7 @@ const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
     highGround: "highGroundScore",
     hoeHoeHoe: "hoeHoeHoeScore",
     lawnMoower: "lawnMoowerScore",
-    rpg16: "rpg16Score",
+    rpg16: "rpg16Score"
   },
   miniWins: {
     animalSlaughter: "animalSlaughter",
@@ -46,7 +46,7 @@ const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
     theFloorIsLava: "theFloorIsLava",
     trampolinio: "trampolinio",
     volcano: "volcano",
-    workshop: "workshop",
+    workshop: "workshop"
   },
   totals: {
     animalSlaughter: "animalSlaughterKills",
@@ -54,7 +54,7 @@ const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
     highGround: "highGroundScore",
     hoeHoeHoe: "hoeHoeHoeScore",
     lawnMoower: "lawnMoowerScore",
-    rpg16: "rpg16Kills",
+    rpg16: "rpg16Kills"
   }
 };
 
