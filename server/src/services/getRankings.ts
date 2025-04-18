@@ -1,5 +1,6 @@
-import { LeaderboardInterface, LeaderboardModel } from "../models/leaderboard";
-import { Minigame } from "../types/types";
+import { LeaderboardModel } from "../models/leaderboard";
+import { Minigame } from "../types";
+import { ApiResponse } from "../types";
 
 interface RankingInterface {
   _id: string;
@@ -26,7 +27,7 @@ function isAscending(minigame: Minigame): boolean {
   return minigames.includes(minigame);
 }
 
-export async function getRankings(name: string): Promise<RankingInterface> {
+export async function getRankings(name: string): Promise<ApiResponse<RankingInterface>> {
   try {
     const leaderboards = await LeaderboardModel.find({ type: "pbs" });
     const rankings: RankingMinigameInterface[] = [];
@@ -39,12 +40,13 @@ export async function getRankings(name: string): Promise<RankingInterface> {
         p => p.username.toLowerCase() === lowerUsername
       );
       if (!player) {
-        rankings.push({
-          minigame: lb.minigame,
-          place: null,
-          value: null
-        });
-        continue;
+        return {
+          success: false,
+          error: {
+            message: `Couldn't find a player by the username ${name}`,
+            code: "INVALID_PLAYER"
+          }
+        };
       }
       if (!realUsername) {
         realUsername = player.username;
@@ -81,7 +83,13 @@ export async function getRankings(name: string): Promise<RankingInterface> {
       });
     }
     if (!uuid || !realUsername) {
-      throw new Error("rror in getting the player's uuid/username, likely doesn't exist");
+      return {
+        success: false,
+        error: {
+          message: `Couldn't find a player by the username ${name}`,
+          code: "INVALID_PLAYER"
+        }
+      };
     }
     rankings.sort((a, b) => {
       if (a.place === null) {
@@ -92,13 +100,22 @@ export async function getRankings(name: string): Promise<RankingInterface> {
         return a.place - b.place;
       }
     });
-    return {
+    const rankingsData = {
       _id: uuid,
       username: realUsername,
       rankings: rankings
     };
+    return {
+      success: true,
+      data: rankingsData
+    };
   } catch (error) {
-    console.error("Error getting player rankings:", error);
-    throw error;
+    return {
+      success: false,
+      error: {
+        message: "Couldn't get rankings from the database",
+        code: "DATABASE_ERROR"
+      }
+    };
   }
 }
