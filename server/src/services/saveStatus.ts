@@ -1,24 +1,37 @@
 import { StatusInterface, StatusModel } from "../models/status";
-import { getStatus } from "../api/api";
+import { getStatus } from "../api";
+import { ApiResponse } from "../types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function convertToStatusModel(apiData: any): Promise<StatusInterface> {
+export async function convertToStatusModel(apiData: any): Promise<ApiResponse<StatusInterface>> {
   try {
     if (!apiData.lastLogout) {
-      throw new Error(`${apiData.displayname} has the api off`);
+      return {
+        success: false,
+        error: {
+          message: "The player likely has the API off",
+          code: "API_OFF"
+        }
+      };
     }
     if (apiData.lastLogin > apiData.lastLogout) {
       const statusData = await getStatus(apiData.displayname);
+      if (!statusData.success) {
+        return statusData;
+      }
       const playerStatus = {
         _id: apiData.uuid,
         username: apiData.displayname,
         lastLogin: apiData.lastLogin,
         lastLogout: apiData.lastLogout,
-        gameType: statusData.gameType,
-        mode: statusData.mode,
+        gameType: statusData.data.gameType,
+        mode: statusData.data.mode,
         expiresAt: new Date(Date.now() + 60000)
       };
-      return new StatusModel(playerStatus);
+      return {
+        success: true,
+        data: new StatusModel(playerStatus)
+      };
     }
     const playerStatus = {
       _id: apiData.uuid,
@@ -27,10 +40,19 @@ export async function convertToStatusModel(apiData: any): Promise<StatusInterfac
       lastLogout: apiData.lastLogout,
       expiresAt: new Date(Date.now() + 60000)
     };
-    return new StatusModel(playerStatus);
+    return {
+      success: true,
+      data: new StatusModel(playerStatus)
+    };
   } catch (error) {
-    console.log("couldn't convert the data into a status model");
-    throw error;
+    console.log(error);
+    return {
+      success: false,
+      error: {
+        message: "There was an unknown error while converting the api data",
+        code: "UNKNOWN"
+      }
+    };
   }
 }
 
@@ -43,6 +65,5 @@ export async function saveStatus(data: StatusInterface): Promise<void> {
     );
   } catch (error) {
     console.log(`there was an error while saving the status of ${data.username} in the database`);
-    throw error;
   }
 }
