@@ -1,6 +1,6 @@
 import { PlayerModel } from "../models/player";
 import { LeaderboardPlayerInterface, LeaderboardModel } from "../models/leaderboard";
-import { LbType, Minigame } from "../types/types";
+import { LbType, Minigame } from "../types";
 
 const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
   pbs: {
