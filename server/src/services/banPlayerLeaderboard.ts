@@ -16,7 +16,7 @@ export async function banLeaderboardOne(
   name: string, 
   minigame: Minigame, 
   type: LbType
-  ): Promise<void> {
+): Promise<void> {
   await LeaderboardModel.updateOne(
     { minigame, type, "players.username": name },
     { $set: { "players.$.banned": true } },
@@ -39,7 +39,7 @@ export async function unbanLeaderboardOne(
   name: string, 
   minigame: Minigame, 
   type: LbType
-  ): Promise<void> {
+): Promise<void> {
   await LeaderboardModel.updateOne(
     { minigame, type, "players.username": name },
     { $unset: { "players.$.banned": "" } },
