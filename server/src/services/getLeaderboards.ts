@@ -1,21 +1,35 @@
 import { LeaderboardModel, LeaderboardInterface } from "../models/leaderboard";
-import { Minigame, LbType } from "../types/types";
+import { Minigame, LbType } from "../types";
+import { ApiResponse } from "../types";
 
 export async function getLeaderboardDatabase(
   minigame: Minigame, 
   type: LbType
-  ): Promise<LeaderboardInterface> {
-  const leaderboard = await LeaderboardModel.findOne({ minigame, type });
-  if (!leaderboard) {
-    throw new Error(`couldnt find the ${type} ${minigame} leaderboard`);
+): Promise<ApiResponse<LeaderboardInterface>> {
+  try {
+    const leaderboard = await LeaderboardModel.findOne({ minigame, type });
+    if (!leaderboard) {
+      throw new Error(`couldnt find the ${type} ${minigame} leaderboard`);
+    }
+    return {
+      success: true,
+      data: leaderboard
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: {
+        message: "There was an error getting the leaderboard from the database",
+        code: "DATABASE_ERROR"
+      }
+    };
   }
-  return leaderboard;
 }
 
-export async function sortLeaderboard(
+export function sortLeaderboard(
   lb: LeaderboardInterface, 
   order: "asc" | "desc" 
-  ): Promise<LeaderboardInterface> {
+): LeaderboardInterface {
   lb.players = lb.players
     .filter(p => p.value !== 0 && p.banned !== true)
     .sort((a, b) => {
