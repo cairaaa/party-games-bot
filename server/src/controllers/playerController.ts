@@ -9,7 +9,7 @@ import { saveLeaderboardAll } from "../services/saveLeaderboards";
 export const handleGetPlayer = async (
   req: Request, 
   res: Response<ApiResponse<PlayerInterface>>
-) => {
+): Promise<void> => {
   const { name } = req.params;
   const checkDatabase = await getPlayerDatabaseRecent(name);
   if (checkDatabase.success) {
