@@ -1,6 +1,6 @@
 // for random intefaces/types and stuff
 
-const minigamesArray = [
+export const minigamesArray = [
   "animalSlaughter",
   "anvilSpleef",
   "avalanche",
@@ -31,7 +31,7 @@ const minigamesArray = [
 
 export type Minigame = typeof minigamesArray[number];
 
-const lbTypesArray = [
+export const lbTypesArray = [
   "pbs",
   "miniWins",
   "totals"
@@ -42,6 +42,7 @@ export type LbType = typeof lbTypesArray[number];
 const errorArray = [
   "FORBIDDEN_RESPONSE",
   "INVALID_PLAYER",
+  "INVALID_PARAMS",
   "OUTDATED_DATA",
   "API_ERROR",
   "DATABASE_ERROR",
@@ -63,3 +64,16 @@ export type ApiResponse<T> = {
     code: ErrorTypes;
   };
 };
+
+export function isAscending(minigame: Minigame): boolean {
+  const minigames: Minigame[] = [
+    "chickenRings",
+    "jigsawRush",
+    "jungleJump",
+    "labEscape",
+    "minecartRacing",
+    "spiderMaze",
+    "theFloorIsLava"
+  ];
+  return minigames.includes(minigame);
+}

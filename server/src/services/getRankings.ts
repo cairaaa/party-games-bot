@@ -1,6 +1,6 @@
 import { LeaderboardModel } from "../models/leaderboard";
 import { Minigame } from "../types";
-import { ApiResponse } from "../types";
+import { ApiResponse, isAscending } from "../types";
 
 interface RankingInterface {
   _id: string;
@@ -12,19 +12,6 @@ interface RankingMinigameInterface {
   minigame: Minigame;
   place: number | null;
   value: number | null;
-}
-
-function isAscending(minigame: Minigame): boolean {
-  const minigames: Minigame[] = [
-    "chickenRings",
-    "jigsawRush",
-    "jungleJump",
-    "labEscape",
-    "minecartRacing",
-    "spiderMaze",
-    "theFloorIsLava"
-  ];
-  return minigames.includes(minigame);
 }
 
 export async function getRankings(name: string): Promise<ApiResponse<RankingInterface>> {
