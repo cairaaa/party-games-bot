@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { handleGetPlayer } from "../controllers/playerController";
 
-const router = Router();
+const playerRouter = Router();
 
-router.get("/:name", handleGetPlayer);
+playerRouter.get("/:name", handleGetPlayer);
 
-export default router;
+export { playerRouter };
