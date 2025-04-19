@@ -2,7 +2,7 @@ import { LeaderboardModel } from "../models/leaderboard";
 import { Minigame } from "../types";
 import { ApiResponse, isAscending } from "../types";
 
-interface RankingInterface {
+export interface RankingInterface {
   _id: string;
   username: string;
   rankings: RankingMinigameInterface[];
