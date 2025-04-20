@@ -13,20 +13,14 @@ const handleGetRankings = async (
     if (useFilter) {
       rankings = await getRealRankings(name);
     } else {
-      rankings = await getRankings(name);       
+      rankings = await getRankings(name);
     }
     if (rankings.success) {
-      res.status(200).json({
-        success: true,
-        data: rankings.data
-      });
+      res.status(200).json(rankings);
       return;
     } else {
       if (rankings.error.code === "INVALID_PLAYER") {
-        res.status(404).json({
-          success: false,
-          error: rankings.error
-        });
+        res.status(404).json(rankings);
         return;
       }
     }
