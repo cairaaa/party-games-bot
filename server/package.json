@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "main": "./src/app.ts",
   "scripts": {
     "dev": "npx tsx watch ./src/app.ts",
     "test": "npx tsx ./test/index.ts"
