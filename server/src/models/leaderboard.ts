@@ -38,6 +38,9 @@ const LeaderboardSchema = new Schema<LeaderboardInterface>(
 );
 
 LeaderboardSchema.index({ "players._id": 1 });
-LeaderboardSchema.index({ "players.username": 1 });
+LeaderboardSchema.index(
+  { "players.username": 1 },
+  { collation: { locale: "en", strength: 2 } }
+);
 
 export const LeaderboardModel = model<LeaderboardInterface>("leaderboard", LeaderboardSchema);
