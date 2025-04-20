@@ -5,6 +5,7 @@ import { playerRouter } from "./routes/playerRouter";
 import { leaderboardRouter } from "./routes/leaderboardRouter";
 import { rankingsRouter } from "./routes/rankingsRouter";
 import { statusRouter } from "./routes/statusRouter";
+import { ApiResponse } from "./types";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,16 @@ app.use("/statuses", statusRouter);
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("leafeon");
+});
+
+app.use((_req: Request, res: Response<ApiResponse<void>>) => {
+  res.status(404).json({
+    success: false,
+    error: {
+      message: "The endpoint you are looking for doesn't exist",
+      code: "ENDPOINT_NOT_FOUND"
+    }
+  });
 });
 
 export const connect = async (): Promise<void> => {
