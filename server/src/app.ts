@@ -6,12 +6,14 @@ import { leaderboardRouter } from "./routes/leaderboardRouter";
 import { rankingsRouter } from "./routes/rankingsRouter";
 import { statusRouter } from "./routes/statusRouter";
 import { ApiResponse } from "./types";
+import { banRouter } from "./routes/banRouter";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
+app.use("/bans", banRouter);
 app.use("/players", playerRouter);
 app.use("/leaderboards", leaderboardRouter);
 app.use("/rankings", rankingsRouter);
