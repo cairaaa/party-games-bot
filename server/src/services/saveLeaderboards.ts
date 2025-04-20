@@ -1,5 +1,5 @@
 import { PlayerModel } from "../models/player";
-import { LeaderboardPlayerInterface, LeaderboardModel } from "../models/leaderboard";
+import { LeaderboardModel } from "../models/leaderboard";
 import { LbType, Minigame } from "../types";
 
 const statsMap: Record<LbType, Partial<Record<Minigame, string>>> = {
@@ -73,40 +73,64 @@ export async function saveLeaderboardAll(name: string): Promise<void> {
     const updatedAt = player.updatedAt;
     const time = now.getTime() - updatedAt!.getTime();
     if (time > 5000) {
-      throw new Error("the function getPlayer has to be called recently before storing lbs");
+      throw new Error("the function savePlayer has to be called recently before storing lbs");
     }
-
     const leaderboards = await LeaderboardModel.find({});
-    for (const lb of leaderboards) {
-      // my best attempt to avoid typescript any errors...
+    const bulkOps = leaderboards.map(lb => {
       const lbType = lb.type as LbType;
       const lbMinigame = lb.minigame as Minigame;
       const statKey = statsMap[lbType][lbMinigame];
       if (!statKey) {
-        throw new Error(`couldn't find ${lbType}.${lbMinigame}`);
+        console.log(`Missing stat mapping for ${lbType}.${lbMinigame}`);
+        return;
       }
       const statsCategory = player.stats[lbType];
       if (!statsCategory) {
-        throw new Error(`couldn't find the category ${lbType}`);
+        console.log(`Player ${name} missing stat category ${lbType}`);
+        return;
       }
       const value = statsCategory[statKey as keyof typeof statsCategory];
-
-      const existing = lb.players.find((p: LeaderboardPlayerInterface) => p._id === player._id);
-      if (existing) {
-        existing.username = player.username;
-        existing.value = value;
-      } else {
-        const leaderboardPlayer = {
-          _id: player._id,
-          username: player.username,
-          value: value
+      const playerExists = lb.players.some(p => 
+        p._id === player._id
+      );
+      if (playerExists) {
+        return {
+          updateOne: {
+            filter: { 
+              _id: lb._id, 
+              "players._id": player._id 
+            },
+            update: { 
+              $set: { 
+                "players.$.username": player.username,
+                "players.$.value": value
+              } 
+            }
+          }
         };
-        lb.players.push(leaderboardPlayer);
+      } else {
+        return {
+          updateOne: {
+            filter: { _id: lb._id },
+            update: { 
+              $push: { 
+                players: {
+                  _id: player._id,
+                  username: player.username,
+                  value: value
+                }
+              } 
+            }
+          }
+        };
       }
-      await lb.save();
+    }).filter((op): op is NonNullable<typeof op> => op !== null);
+    if (bulkOps.length > 0) {
+      await LeaderboardModel.bulkWrite(bulkOps);
     }
+    // erm not ai at all!!
   } catch (error) {
-    console.log("couldn't store leaderboard values in database");
+    console.log("there was an error saving the player's lb data to the database");
     throw error;
   }
 }
