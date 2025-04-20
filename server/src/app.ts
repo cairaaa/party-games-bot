@@ -4,6 +4,7 @@ import { connectToDatabase } from "./database/db";
 import { playerRouter } from "./routes/playerRouter";
 import { leaderboardRouter } from "./routes/leaderboardRouter";
 import { rankingsRouter } from "./routes/rankingsRouter";
+import { statusRouter } from "./routes/statusRouter";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.use(cors());
 app.use("/players", playerRouter);
 app.use("/leaderboards", leaderboardRouter);
 app.use("/rankings", rankingsRouter);
+app.use("/statuses", statusRouter);
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("leafeon");
