@@ -4,6 +4,9 @@ import { getStatusDatabase } from "../services/getStatus";
 import { convertToStatusModel, saveStatus } from "../services/saveStatus";
 import { ApiResponse } from "../types";
 import { StatusInterface } from "../models/status";
+import { convertToPlayerModel } from "../services/savePlayer";
+import { savePlayer } from "../services/savePlayer";
+import { saveLeaderboardAll } from "../services/saveLeaderboards";
 
 export const handleGetStatus = async (
   req: Request, 
@@ -22,10 +25,12 @@ export const handleGetStatus = async (
     const playerData = await getPlayer(name);
     if (playerData.success) {
       const statusData = await convertToStatusModel(playerData.data);
-      console.log(playerData, statusData);
       if (statusData.success) {
         res.status(200).json(statusData);
         await saveStatus(statusData.data);
+        const savePlayerData = convertToPlayerModel(playerData.data);
+        await savePlayer(savePlayerData);
+        await saveLeaderboardAll(name);
         return;
       }
       if (statusData.error.code === "API_OFF") {
