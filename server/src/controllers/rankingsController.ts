@@ -41,6 +41,18 @@ const handleGetRankings = async (
           res.status(200).json(rankings);
           return;
         }
+      } else if (!databaseData.success) {
+        if (databaseData.error.code === "INVALID_PLAYER") {
+          await savePlayer(savePlayerData);
+          await saveLeaderboardAll(name);
+          if (useFilter) {
+            rankings = await getRealRankings(name);
+          } else {
+            rankings = await getRankings(name);
+          }
+          res.status(200).json(rankings);
+          return;
+        }
       }
       if (useFilter) {
         rankings = await getRealRankings(name);
