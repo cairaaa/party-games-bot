@@ -4,7 +4,8 @@
   "description": "",
   "main": "./src/bot.ts",
   "scripts": {
-    "test": "npx tsx ./test/index.ts"
+    "test": "npx tsx ./test/index.ts",
+    "deployCommands": "npx tsx ./src/deployCommands.ts"
   },
   "keywords": [],
   "author": "cai",
