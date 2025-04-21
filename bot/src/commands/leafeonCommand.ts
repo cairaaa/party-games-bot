@@ -5,7 +5,8 @@ export const leafeonCommand: Command = {
   data: new SlashCommandBuilder()
    .setName("leafeon")
    .setDescription("replies with leafeon, a test command"),
+
   async execute(interaction: ChatInputCommandInteraction) {
-    interaction.reply("leafeon");
+    await interaction.reply("leafeon");
   }
 };
