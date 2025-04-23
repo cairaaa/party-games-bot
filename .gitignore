@@ -1,6 +1,6 @@
 **/dist/
 **/test/
-bot/src/assets/images-png/
+client/public/images-png/
 node_modules/
 **/.env
 package-lock.json
