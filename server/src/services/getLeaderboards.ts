@@ -1,6 +1,6 @@
 import { LeaderboardModel, LeaderboardInterface } from "../models/leaderboard";
-import { Minigame, LbType } from "../types";
-import { ApiResponse } from "../types";
+import { Minigame, LbType } from "@shared-types/types";
+import { ApiResponse } from "@shared-types/types";
 
 export async function getLeaderboardDatabase(
   minigame: Minigame, 

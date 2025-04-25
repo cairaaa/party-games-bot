@@ -1,5 +1,5 @@
 import { StatusInterface, StatusModel } from "../models/status";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 
 export async function getStatusDatabase(name: string): Promise<ApiResponse<StatusInterface>> {
   const player = await StatusModel.findOne(

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { banLeaderboardsAll, banLeaderboardOne } from "../services/banPlayerLeaderboard";
 import { unbanLeaderboardsAll, unbanLeaderboardOne } from "../services/banPlayerLeaderboard";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 import { getPlayerDatabase } from "../services/getPlayer";
-import { minigamesArray, Minigame, lbTypesArray, LbType } from "../types";
+import { minigamesArray, Minigame, lbTypesArray, LbType } from "@shared-types/types";
 
 const handleBanUnbanPlayer = async (
   req: Request,

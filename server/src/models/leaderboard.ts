@@ -1,5 +1,5 @@
 import { model, Document, Schema } from "mongoose";
-import { Minigame, LbType } from "../types";
+import { Minigame, LbType } from "@shared-types/types";
 
 export interface LeaderboardPlayerInterface {
   _id: string;

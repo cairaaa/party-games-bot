@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getPlayer } from "../api";
 import { convertToPlayerModel, savePlayer } from "../services/savePlayer";
 import { getPlayerDatabaseRecent } from "../services/getPlayer";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 import { PlayerInterface } from "../models/player";
 import { saveLeaderboardAll } from "../services/saveLeaderboards";
 

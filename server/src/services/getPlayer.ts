@@ -1,5 +1,5 @@
 import { PlayerModel, PlayerInterface } from "../models/player";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 
 export async function getUUIDDatabase(name: string): Promise<ApiResponse<string>> {
   try {

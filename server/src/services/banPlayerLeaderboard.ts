@@ -1,5 +1,5 @@
 import { LeaderboardModel } from "../models/leaderboard";
-import { Minigame, LbType } from "../types";
+import { Minigame, LbType } from "@shared-types/types";
 
 export async function banLeaderboardsAll(name: string): Promise<void> {
   await LeaderboardModel.updateMany(

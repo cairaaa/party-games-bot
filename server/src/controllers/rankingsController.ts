@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 import { getRankings, getRealRankings, RankingInterface } from "../services/getRankings";
 import { getPlayer } from "../api";
 import { convertToPlayerModel, savePlayer } from "../services/savePlayer";

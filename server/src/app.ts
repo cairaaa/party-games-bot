@@ -5,7 +5,7 @@ import { playerRouter } from "./routes/playerRouter";
 import { leaderboardRouter } from "./routes/leaderboardRouter";
 import { rankingsRouter } from "./routes/rankingsRouter";
 import { statusRouter } from "./routes/statusRouter";
-import { ApiResponse } from "./types";
+import { ApiResponse } from "@shared-types/types";
 import { banRouter } from "./routes/banRouter";
 
 const app = express();

@@ -1,6 +1,6 @@
 import { LeaderboardModel } from "../models/leaderboard";
-import { Minigame } from "../types";
-import { ApiResponse, isAscending } from "../types";
+import { Minigame } from "@shared-types/types";
+import { ApiResponse, isAscending } from "@shared-types/types";
 
 export interface RankingInterface {
   _id: string;

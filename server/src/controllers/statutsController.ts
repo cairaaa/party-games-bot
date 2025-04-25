@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getPlayer } from "../api";
 import { getStatusDatabase } from "../services/getStatus";
 import { convertToStatusModel, saveStatus } from "../services/saveStatus";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 import { StatusInterface } from "../models/status";
 import { convertToPlayerModel } from "../services/savePlayer";
 import { savePlayer } from "../services/savePlayer";

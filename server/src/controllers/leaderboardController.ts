@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { getLeaderboardDatabase, sortLeaderboard } from "../services/getLeaderboards";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 import { LeaderboardInterface } from "../models/leaderboard";
-import { minigamesArray, Minigame, lbTypesArray, LbType, isAscending } from "../types";
+import { minigamesArray, Minigame, lbTypesArray, LbType, isAscending } from "@shared-types/types";
 
 export const handleGetLeaderboard = async (
   req: Request,

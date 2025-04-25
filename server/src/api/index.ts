@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { getUUIDDatabase } from "../services/getPlayer";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 
 dotenv.config();
 const apiKey = process.env.API_KEY;

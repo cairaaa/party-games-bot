@@ -1,6 +1,6 @@
 import { StatusInterface, StatusModel } from "../models/status";
 import { getStatus } from "../api";
-import { ApiResponse } from "../types";
+import { ApiResponse } from "@shared-types/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function convertToStatusModel(apiData: any): Promise<ApiResponse<StatusInterface>> {
