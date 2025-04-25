@@ -20,7 +20,7 @@ app.use("/rankings", rankingsRouter);
 app.use("/statuses", statusRouter);
 
 app.get("/", (_req: Request, res: Response) => {
-  res.send("leafeon");
+  res.send("hello world!");
 });
 
 app.use((_req: Request, res: Response<ApiResponse<void>>) => {
