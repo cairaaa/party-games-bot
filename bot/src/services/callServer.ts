@@ -1,7 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { Minigame, LbType, ApiResponse } from "../types";
-import { PlayerInterface, LeaderboardInterface, StatusInterface, RankingInterface } from "../types/interfaces";
+import { Minigame, LbType, ApiResponse } from "@shared-types/types"
+import { PlayerInterface, LeaderboardInterface } from "@shared-types/interfaces";
+import { StatusInterface, RankingInterface } from "@shared-types/interfaces"
 
 dotenv.config();
 
