@@ -1,6 +1,7 @@
 **/dist/
 **/test/
 bot/public/images-png/
+bot/public/images-blur/
 node_modules/
 **/.env
 package-lock.json
