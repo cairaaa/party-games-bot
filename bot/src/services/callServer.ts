@@ -1,99 +1,70 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { Minigame, LbType, ApiResponse } from "../types";
+import { PlayerInterface, LeaderboardInterface, StatusInterface, RankingInterface } from "../types/interfaces";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const baseUrl = `http://localhost:${PORT}`;
 
-const unknownError = {
-  success: false,
-  error: {
-    message: "There was an unknown error",
-    code: "UNKNOWN"
+function returnUnknown<T>(): ApiResponse<T> {
+  const unknownError = {
+    success: false as const,
+    error: {
+      message: "There was an unknown error",
+      code: "UNKNOWN" as const
+    }
   }
-};
+  return unknownError;
+}
 
-// copy paste from the types file in server lmao
-const minigamesArray = [
-  "animalSlaughter",
-  "anvilSpleef",
-  "avalanche",
-  "bombardment",
-  "cannonPainting",
-  "chickenRings",
-  "dive",
-  "fireLeapers",
-  "frozenFloor",
-  "highGround",
-  "hoeHoeHoe",
-  "jigsawRush",
-  "jungleJump",
-  "labEscape",
-  "lawnMoower",
-  "minecartRacing",
-  "pigFishing",
-  "pigJousting",
-  "rpg16",
-  "shootingRange",
-  "spiderMaze",
-  "superSheep",
-  "theFloorIsLava",
-  "trampolinio",
-  "volcano",
-  "workshop"
-] as const;
-
-type Minigame = typeof minigamesArray[number];
-
-const lbTypesArray = [
-  "pbs",
-  "miniWins",
-  "totals"
-] as const;
-
-type LbType = typeof lbTypesArray[number];
-
-async function callStats(url: string): Promise<object> {
+async function callStats<T>(url: string): Promise<ApiResponse<T>> {
   try {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        return (error.response.data);
+        return error.response.data as ApiResponse<T>;
       }
     }
-    return unknownError;
+    return returnUnknown();
   }
 }
 
-export async function callPlayer(name: string): Promise<object> {
+export async function callPlayer(name: string): Promise<ApiResponse<PlayerInterface>> {
   const url = `${baseUrl}/players/${name}`;
-  const response = await callStats(url);
+  const response = await callStats<PlayerInterface>(url);
   return response;
 }
 
-export async function callLeaderboard(minigame: Minigame, lbType: LbType): Promise<object> {
+export async function callLeaderboard(
+  minigame: Minigame, 
+  lbType: LbType
+): Promise<ApiResponse<LeaderboardInterface>> {
   const url = `${baseUrl}/leaderboards/${minigame}/${lbType}`;
-  const response = await callStats(url);
+  const response = await callStats<LeaderboardInterface>(url);
   return response;
 }
 
-export async function callStatus(name: string): Promise<object> {
+export async function callStatus(name: string): Promise<ApiResponse<StatusInterface>> {
   const url = `${baseUrl}/statuses/${name}`;
-  const response = await callStats(url);
+  const response = await callStats<StatusInterface>(url);
   return response;
 }
 
-export async function callRankings(name: string, all: boolean = false): Promise<object> {
+export async function callRankings(
+  name: string, 
+  all: boolean = false
+): Promise<ApiResponse<RankingInterface>> {
   let url: string;
   if (all) {
     url = `${baseUrl}/rankings/${name}/all`;
   } else {
     url = `${baseUrl}/rankings/${name}`;
   }
-  const response = await callStats(url);
+  const response = await callStats<RankingInterface>(url);
   return response;
 }
 
@@ -102,7 +73,7 @@ export async function callBans(
   ban: "ban" | "unban",
   minigame?: Minigame,
   lbType?: LbType
-): Promise<object> {
+): Promise<ApiResponse<string>> {
   try {
     let url: string;
     if (minigame && lbType) {
@@ -131,6 +102,6 @@ export async function callBans(
         return (error.response.data);
       }
     }
-    return unknownError;
+    return returnUnknown();
   }
 }
