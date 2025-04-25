@@ -1,8 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { Minigame, LbType, ApiResponse } from "@shared-types/types"
+import { Minigame, LbType, ApiResponse } from "@shared-types/types";
 import { PlayerInterface, LeaderboardInterface } from "@shared-types/interfaces";
-import { StatusInterface, RankingInterface } from "@shared-types/interfaces"
+import { StatusInterface, RankingInterface } from "@shared-types/interfaces";
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ function returnUnknown<T>(): ApiResponse<T> {
       message: "There was an unknown error",
       code: "UNKNOWN" as const
     }
-  }
+  };
   return unknownError;
 }
 
