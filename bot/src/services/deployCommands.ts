@@ -15,7 +15,7 @@ async function deployCommands() {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const commands: Command[] = [];
-    const commandsPath = join(__dirname, "commands");
+    const commandsPath = join(__dirname, "../commands");
     const commandFiles = (await fs.readdir(commandsPath))
       .filter(file => file.endsWith(".ts")|| file.endsWith(".js"));
       for (const file of commandFiles) {
