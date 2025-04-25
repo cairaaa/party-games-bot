@@ -5,14 +5,18 @@
   "main": "./src/bot.ts",
   "scripts": {
     "test": "npx tsx ./test/index.ts",
-    "deployCommands": "npx tsx ./src/services/deployCommands.ts"
+    "deploy": "npx tsx ./src/services/deployCommands.ts",
+    "dev": "npm run deploy && npx tsx src/bot.ts",
+    "start": "npx tsx src/bot.ts"
   },
   "keywords": [],
   "author": "cai",
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.69",
     "axios": "^1.8.4",
-    "discord.js": "^14.18.0"
+    "discord.js": "^14.18.0",
+    "sharp": "^0.34.1"
   }
 }
