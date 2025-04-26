@@ -1,0 +1,15 @@
+import { GlobalFonts } from "@napi-rs/canvas";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export function registerFonts() {
+  const montserratBoldPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Bold.ttf");
+  GlobalFonts.registerFromPath(montserratBoldPath, "Montserrat-Bold");
+  const montserratPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Regular.ttf");
+  GlobalFonts.registerFromPath(montserratPath, "Montserrat");
+  const monospacePath = path.resolve(__dirname, "../../public/fonts/AzeretMono-Regular.ttf");
+  GlobalFonts.registerFromPath(monospacePath, "Monospace");
+}
