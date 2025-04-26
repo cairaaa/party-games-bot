@@ -7,7 +7,7 @@ import { Command } from "../types/Command";
 
 dotenv.config();
 
-async function deployCommands() {
+async function deployCommands(): Promise<void> {
   try {
     if (!process.env.BOT_TOKEN || !process.env.CLIENT_ID || !process.env.GUILD_ID) {
       throw new Error("please add env variables");

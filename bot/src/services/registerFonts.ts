@@ -5,7 +5,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export function registerFonts() {
+export function registerFonts(): void {
   const montserratBoldPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Bold.ttf");
   GlobalFonts.registerFromPath(montserratBoldPath, "Montserrat-Bold");
   const montserratPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Regular.ttf");

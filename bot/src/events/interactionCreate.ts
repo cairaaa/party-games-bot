@@ -3,7 +3,7 @@ import { Client, Events, Interaction } from "discord.js";
 export const interactionCreateEvent = {
   name: Events.InteractionCreate,
   once: false,
-  async execute(interaction: Interaction) {
+  async execute(interaction: Interaction): Promise<void> {
 		if (!interaction.isChatInputCommand()) {
       return;
     }
