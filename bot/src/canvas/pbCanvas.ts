@@ -7,15 +7,15 @@ import { initializePlayerCanvas } from "../services/initializeCanvases";
 function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   let fontSize = 150;
   do {
-    ctx.font = `${fontSize}px Montserrat-Bold`;
+    ctx.font = `${fontSize}px Bold`;
     const textWidth = ctx.measureText(player.username).width;
     if (textWidth <= 900) {
       break;
     }
     fontSize -= 5;
   } while (fontSize > 1);
+  ctx.font = `${fontSize}px Bold`;
   ctx.fillStyle = colour.white;
-  ctx.font = `${fontSize}px Montserrat-Bold`;
   ctx.textAlign = "center";
   ctx.fillText(player.username, 590, 300);
 
@@ -23,7 +23,7 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
   const winsText = "Wins:";
   const winsValue = String(player.stats.wins);
 
-  ctx.font = "100px Montserrat-Bold";
+  ctx.font = "100px Bold";
   const winsTextWidth = ctx.measureText(winsText).width;
 
   ctx.font = "100px Monospace";
@@ -32,7 +32,7 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
   const totalWidth = winsTextWidth + playerWinsWidth + 50;
   const startX = winsX - (totalWidth / 2);
 
-  ctx.font = "100px Montserrat-Bold";
+  ctx.font = "100px Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "left";
   ctx.fillText(winsText, startX, 475);
@@ -43,7 +43,7 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
 }
 
 function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
-  ctx.font = "100px Montserrat-Bold";
+  ctx.font = "100px Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "center";
   ctx.fillText("Scores:", 590, 650);
@@ -69,7 +69,7 @@ function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): voi
   const scoreSpacing = 125;
   const scoreStartY = 1400;
 
-  ctx.font = "75px Montserrat-Bold";
+  ctx.font = "75px Bold";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
@@ -91,7 +91,7 @@ function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): voi
 }
 
 function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
-  ctx.font = "100px Montserrat-Bold";
+  ctx.font = "100px Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "center";
   ctx.fillText("Times:", 1870, 250);
@@ -123,7 +123,7 @@ function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void
   const timeSpacing = 125;
   const timeStartY = 1400;
 
-  ctx.font = "75px Montserrat-Bold";
+  ctx.font = "75px Bold";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 

@@ -7,9 +7,9 @@ const __dirname = path.dirname(__filename);
 
 export function registerFonts(): void {
   const montserratBoldPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Bold.ttf");
-  GlobalFonts.registerFromPath(montserratBoldPath, "Montserrat-Bold");
+  GlobalFonts.registerFromPath(montserratBoldPath, "Bold");
   const montserratPath = path.resolve(__dirname, "../../public/fonts/Montserrat-Regular.ttf");
-  GlobalFonts.registerFromPath(montserratPath, "Montserrat");
+  GlobalFonts.registerFromPath(montserratPath, "Regular");
   const monospacePath = path.resolve(__dirname, "../../public/fonts/AzeretMono-Regular.ttf");
   GlobalFonts.registerFromPath(monospacePath, "Monospace");
 }
