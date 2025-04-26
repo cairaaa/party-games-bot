@@ -12,6 +12,7 @@ export default tseslint.config(
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/explicit-function-return-type": "error",
       "@stylistic/ts/comma-dangle": ["error", "never"],
       "semi": ["error", "always"],
       "quotes": ["error", "double"],
