@@ -24,7 +24,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
 
   let fontSize = 150;
   do {
-    ctx.font = `${fontSize}px Arial`;
+    ctx.font = `${fontSize}px Montserrat-Bold`;
     const textWidth = ctx.measureText(player.username).width;
     if (textWidth <= 900) {
       break;
@@ -32,20 +32,35 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     fontSize -= 5;
   } while (fontSize > 1);
   ctx.fillStyle = colour.white;
-  ctx.font = `${fontSize}px Arial`;
+  ctx.font = `${fontSize}px Montserrat-Bold`;
   ctx.textAlign = "center";
   ctx.fillText(player.username, 590, 325);
 
-  ctx.font = "100px Arial";
+  const centerX = 590;
+  const winsText = "Wins:";
+  const playerWins = String(player.stats.wins);
+
+  ctx.font = "100px Montserrat-Bold";
+  const winsTextWidth = ctx.measureText(winsText).width;
+
+  ctx.font = "100px Monospace";
+  const playerWinsWidth = ctx.measureText(playerWins).width;
+
+  const totalWidth = winsTextWidth + playerWinsWidth + 50;
+  const startX = centerX - (totalWidth / 2);
+
+  // Render "Wins:" text
+  ctx.font = "100px Montserrat-Bold";
   ctx.fillStyle = colour.green;
-  ctx.textAlign = "end";
-  ctx.fillText("Wins:", 590, 488);
+  ctx.textAlign = "left";
+  ctx.fillText(winsText, startX, 488);
 
+  // Render player wins count
+  ctx.font = "100px Monospace";
   ctx.fillStyle = colour.white;
-  ctx.textAlign = "start";
-  ctx.fillText(String(player.stats.wins), 640, 488);
+  ctx.fillText(playerWins, startX + winsTextWidth + 50, 488);
 
-  ctx.font = "100px Arial";
+  ctx.font = "100px Montserrat-Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "center";
   ctx.fillText("Scores:", 590, 650);
@@ -71,7 +86,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
   const scoreSpacing = 125;
   const scoreStartY = 1400;
 
-  ctx.font = "75px Arial";
+  ctx.font = "75px Montserrat-Bold";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
@@ -81,6 +96,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     ctx.fillText(scoreName, scoreWidthEnd, height);
   });
 
+  ctx.font = "75px Monospace";
   ctx.fillStyle = colour.white;
   ctx.textAlign = "start";
 
@@ -90,7 +106,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     ctx.fillText(String(scoreValue), scoreValueWidth, height);
   });
 
-  ctx.font = "100px Arial";
+  ctx.font = "100px Montserrat-Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "center";
   ctx.fillText("Times:", 1870, 250);
@@ -122,7 +138,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
   const timeSpacing = 125;
   const timeStartY = 1400;
 
-  ctx.font = "75px Arial";
+  ctx.font = "75px Montserrat-Bold";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
@@ -132,6 +148,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     ctx.fillText(timeName, timeWidthEnd, height);
   });
 
+  ctx.font = "75px Monospace";
   ctx.fillStyle = colour.white;
   ctx.textAlign = "start";
 
