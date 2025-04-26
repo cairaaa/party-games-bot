@@ -16,7 +16,7 @@ export const pbCommand: Command = {
     try {
       const name = interaction.options.getString("player", true);
       const imageBuffer = await createPbCanvas(name);
-      if (typeof imageBuffer === "string" ) {
+      if (typeof imageBuffer === "string") {
         await interaction.reply(imageBuffer);
         return;
       }
