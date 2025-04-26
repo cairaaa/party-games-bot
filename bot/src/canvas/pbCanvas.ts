@@ -34,7 +34,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
   ctx.fillStyle = colour.white;
   ctx.font = `${fontSize}px Arial`;
   ctx.textAlign = "center";
-  ctx.fillText(player.username, 590, 300);
+  ctx.fillText(player.username, 590, 325);
 
   ctx.font = "100px Arial";
   ctx.fillStyle = colour.green;
@@ -48,7 +48,7 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
   ctx.font = "100px Arial";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "center";
-  ctx.fillText("Scores:", 590, 675);
+  ctx.fillText("Scores:", 590, 650);
 
   const scoreNames = [
     "Animal Slaughter:",
@@ -67,27 +67,27 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     rpg16: player.stats.pbs.rpg16Score
   };
   const scoreWidthEnd = 850;
-  const scoreHeightStart = 825;
-  const scoreHeightEnd = 1400;
   const scoreValueWidth = 900;
-  const scoreSpacing = (scoreHeightEnd - scoreHeightStart) / 5;
+  const scoreSpacing = 125;
+  const scoreStartY = 1400;
 
   ctx.font = "75px Arial";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
-  
-  scoreNames.forEach((scoreName, index) => {
-    const height = scoreHeightStart + (index * scoreSpacing);
+
+  const reversedScoreNames = [...scoreNames].reverse();
+  reversedScoreNames.forEach((scoreName, index) => {
+    const height = scoreStartY - (index * scoreSpacing);
     ctx.fillText(scoreName, scoreWidthEnd, height);
   });
 
   ctx.fillStyle = colour.white;
   ctx.textAlign = "start";
 
-  Object.values(scoreValues).forEach((scoreValue, index) => {
-    const value = String(scoreValue);
-    const height = scoreHeightStart + (index * scoreSpacing);
-    ctx.fillText(value, scoreValueWidth, height);
+  const reversedScoreValues = Object.values(scoreValues).reverse();
+  Object.values(reversedScoreValues).forEach((scoreValue, index) => {
+    const height = scoreStartY - (index * scoreSpacing);
+    ctx.fillText(String(scoreValue), scoreValueWidth, height);
   });
 
   ctx.font = "100px Arial";
@@ -118,27 +118,27 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
     theFloorIsLava: player.stats.pbs.theFloorIsLavaTime
   };
   const timeWidthEnd = 2000;
-  const timeHeightStart = 400;
-  const timeHeightEnd = 1400;
   const timeValueWidth = 2050;
-  const timeSpacing = (timeHeightEnd - timeHeightStart) / 8;
+  const timeSpacing = 125;
+  const timeStartY = 1400;
 
   ctx.font = "75px Arial";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
-  timeNames.forEach((timeName, index) => {
-    const height = timeHeightStart + (index * timeSpacing);
+  const reversedTimeNames = [...timeNames].reverse();
+  reversedTimeNames.forEach((timeName, index) => {
+    const height = timeStartY - (index * timeSpacing);
     ctx.fillText(timeName, timeWidthEnd, height);
   });
 
   ctx.fillStyle = colour.white;
   ctx.textAlign = "start";
 
-  Object.values(timeValues).forEach((timeValue, index) => {
-    const value = String(timeValue);
-    const height = timeHeightStart + (index * timeSpacing);
-    ctx.fillText(value, timeValueWidth, height);
+  const reversedTimeValues = Object.values(timeValues).reverse();
+  Object.values(reversedTimeValues).forEach((timeValue, index) => {
+    const height = timeStartY - (index * timeSpacing);
+    ctx.fillText(String(timeValue), timeValueWidth, height);
   });
 
   const buffer = canvas.toBuffer("image/jpeg");
