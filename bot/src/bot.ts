@@ -1,5 +1,6 @@
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import { Command } from "./types/Command";
+import { registerFonts } from "./services/registerFonts";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import path from "path";
@@ -13,6 +14,8 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+
+registerFonts();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
