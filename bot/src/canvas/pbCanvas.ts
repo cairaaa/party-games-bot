@@ -1,31 +1,8 @@
-import { Canvas, loadImage, CanvasRenderingContext2D } from "@napi-rs/canvas";
+import { CanvasRenderingContext2D } from "@napi-rs/canvas";
 import { callPlayer } from "../services/callServer";
 import { colour } from "../types/colours";
-import { fileURLToPath } from "url";
-import path from "path";
 import { PlayerInterface } from "@shared-types/interfaces";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-async function callPlayerPb(name: string): Promise<PlayerInterface | string> {
-  const response = await callPlayer(name);
-  if (!response.success) {
-    return response.error.message;
-  }
-  const player = response.data;
-  return player;
-}
-
-async function initializeCanvas(): Promise<Canvas> {
-  const randomNumber = Math.floor(Math.random() * 5) + 1;
-  const imagePath = path.resolve(__dirname, `../../public/images-new/start-${randomNumber}.jpg`);
-  const image = await loadImage(imagePath);
-  const canvas = new Canvas(image.width, image.height);
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(image, 0, 0);
-  return canvas;
-}
+import { initializePlayerCanvas } from "../services/initializeCanvases";
 
 function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   let fontSize = 150;
@@ -40,7 +17,7 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
   ctx.fillStyle = colour.white;
   ctx.font = `${fontSize}px Montserrat-Bold`;
   ctx.textAlign = "center";
-  ctx.fillText(player.username, 590, 325);
+  ctx.fillText(player.username, 590, 300);
 
   const winsX = 590;
   const winsText = "Wins:";
@@ -58,11 +35,11 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
   ctx.font = "100px Montserrat-Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "left";
-  ctx.fillText(winsText, startX, 488);
+  ctx.fillText(winsText, startX, 475);
 
   ctx.font = "100px Monospace";
   ctx.fillStyle = colour.white;
-  ctx.fillText(winsValue, startX + winsTextWidth + 50, 488);
+  ctx.fillText(winsValue, startX + winsTextWidth + 50, 475);
 }
 
 function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
@@ -168,11 +145,12 @@ function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void
 }
 
 export async function createPbCanvas(name: string): Promise<Buffer | string> {
-  const player = await callPlayerPb(name);
-  if (typeof player === "string") {
-    return player;
+  const response = await callPlayer(name);
+  if (!response.success) {
+    return response.error.message;
   }
-  const canvas = await initializeCanvas();
+  const player = response.data;
+  const canvas = await initializePlayerCanvas();
   const ctx = canvas.getContext("2d");
   drawUsernameAndWins(ctx, player);
   drawScores(ctx, player);
