@@ -49,13 +49,11 @@ export async function createPbCanvas(name: string): Promise<Buffer | string> {
   const totalWidth = winsTextWidth + playerWinsWidth + 50;
   const startX = centerX - (totalWidth / 2);
 
-  // Render "Wins:" text
   ctx.font = "100px Montserrat-Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "left";
   ctx.fillText(winsText, startX, 488);
 
-  // Render player wins count
   ctx.font = "100px Monospace";
   ctx.fillStyle = colour.white;
   ctx.fillText(playerWins, startX + winsTextWidth + 50, 488);
