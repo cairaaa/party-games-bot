@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder } from "discord.js";
 import { Command } from "../types/Command";
-import { createPbCanvas } from "../canvas/pbCanvas";
+import { createPbsCanvas } from "../canvas/pbCanvas";
 
 export const pbsCommand: Command = {
   data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ export const pbsCommand: Command = {
   async execute(interaction: ChatInputCommandInteraction) {
     try {
       const name = interaction.options.getString("player", true);
-      const imageBuffer = await createPbCanvas(name);
+      const imageBuffer = await createPbsCanvas(name);
       if (typeof imageBuffer === "string") {
         await interaction.reply(imageBuffer);
         return;

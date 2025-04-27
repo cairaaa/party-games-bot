@@ -144,7 +144,7 @@ function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void
   });
 }
 
-export async function createPbCanvas(name: string): Promise<Buffer | string> {
+export async function createPbsCanvas(name: string): Promise<Buffer | string> {
   const response = await callPlayer(name);
   if (!response.success) {
     return response.error.message;
