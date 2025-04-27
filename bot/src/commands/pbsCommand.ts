@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder } f
 import { Command } from "../types/Command";
 import { createPbCanvas } from "../canvas/pbCanvas";
 
-export const pbCommand: Command = {
+export const pbsCommand: Command = {
   data: new SlashCommandBuilder()
     .setName("pb")
     .setDescription("get pbs")
