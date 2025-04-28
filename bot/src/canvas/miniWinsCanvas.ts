@@ -4,11 +4,19 @@ import { colour } from "../types/colours";
 import { PlayerInterface } from "@shared-types/interfaces";
 import { initializePlayerCanvas } from "../services/initializeCanvases";
 
-function drawUsername(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
+function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   ctx.font = "150px Bold";
   ctx.fillStyle = colour.white;
   ctx.textAlign = "center";
   ctx.fillText(player.username, 1280, 300);
+
+  ctx.font = "100px Bold";
+  ctx.fillStyle = colour.green;
+  ctx.fillText("Wins:", 526.5, 550);
+
+  ctx.font = "100px Monospace";
+  ctx.fillStyle = colour.white;
+  ctx.fillText(String(player.stats.wins), 526.5, 690);
 }
 
 function drawColumn(
@@ -52,28 +60,20 @@ function drawColumn(
 function drawFirstColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   drawColumn(ctx, player, {
     columnNames: [
-      "Animal Slaughter:",
-      "Anvil Spleef:",
-      "Avalanche:",
-      "Bombardment:",
-      "Cannon Painting:",
-      "Chicken Rings:",
-      "Dive:",
-      "Fire Leapers:",
       "Frozen Floor:",
-      "High Ground:"
+      "Jigsaw Rush:",
+      "Lawn Moower:",
+      "Pig Jousting:",
+      "Spider Maze:",
+      "Trampolinio:"
     ],
     columnValues: {
-      animalSlaughter: player.stats.miniWins.animalSlaughter,
-      anvilSpleef: player.stats.miniWins.anvilSpleef,
-      avalanche: player.stats.miniWins.avalanche,
-      bombardment: player.stats.miniWins.bombardment,
-      cannonPainting: player.stats.miniWins.cannonPainting,
-      chickenRings: player.stats.miniWins.chickenRings,
-      dive: player.stats.miniWins.dive,
-      fireLeapers: player.stats.miniWins.fireLeapers,
       frozenFloor: player.stats.miniWins.frozenFloor,
-      highGround: player.stats.miniWins.highGround
+      jigsawRush: player.stats.miniWins.jigsawRush,
+      lawnMoower: player.stats.miniWins.lawnMoower,
+      pigJousting: player.stats.miniWins.pigJousting,
+      spiderMaze: player.stats.miniWins.spiderMaze,
+      trampolinio: player.stats.miniWins.trampolinio
     },
     startX: 150,
     endX: 903,
@@ -84,28 +84,28 @@ function drawFirstColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface)
 function drawSecondColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   drawColumn(ctx, player, {
     columnNames: [
-      "Hoe Hoe Hoe:",
-      "Jigsaw Rush:",
+      "Animal Slaughter:",
+      "Avalanche:",
+      "Cannon Painting",
+      "Dive:",
+      "High Ground:",
       "Jungle Jump:",
-      "Lab Escape:",
-      "Lawn Moower:",
       "Minecart Racing:",
-      "Pig Fishing:",
-      "Pig Jousting:",
       "Rpg-16:",
-      "Shooting Range:"
+      "Super Sheep:",
+      "Volcano:"
     ],
     columnValues: {
-      hoeHoeHoe: player.stats.miniWins.hoeHoeHoe,
-      jigsawRush: player.stats.miniWins.jigsawRush,
+      animalSlaughter: player.stats.miniWins.animalSlaughter,
+      avalanche: player.stats.miniWins.avalanche,
+      cannonPainting: player.stats.miniWins.cannonPainting,
+      dive: player.stats.miniWins.dive,
+      highGround: player.stats.miniWins.highGround,
       jungleJump: player.stats.miniWins.jungleJump,
-      labEscape: player.stats.miniWins.labEscape,
-      lawnMoower: player.stats.miniWins.lawnMoower,
       minecartRacing: player.stats.miniWins.minecartRacing,
-      pigFishing: player.stats.miniWins.pigFishing,
-      pigJousting: player.stats.miniWins.pigJousting,
       rpg16: player.stats.miniWins.rpg16,
-      shootingRange: player.stats.miniWins.shootingRange
+      superSheep: player.stats.miniWins.superSheep,
+      volcano: player.stats.miniWins.volcano
     },
     startX: 903,
     endX: 1657,
@@ -116,24 +116,32 @@ function drawSecondColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface
 function drawThirdColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   drawColumn(ctx, player, {
     columnNames: [
-      "Spider Maze:",
-      "Super Sheep:",
+      "Anvil Spleef:",
+      "Bombardment:",
+      "Chicken Rings:",
+      "Fire Leapers:",
+      "Hoe Hoe Hoe:",
+      "Lab Escape:",
+      "Pig Fishing:",
+      "Shooting Range:",
       "The Floor is Lava:",
-      "Trampolinio:",
-      "Volcano:",
-      "Workshop"
+      "Workshop:"
     ],
     columnValues: {
-      spiderMaze: player.stats.miniWins.spiderMaze,
-      superSheep: player.stats.miniWins.superSheep,
+      anvilSpleef: player.stats.miniWins.anvilSpleef,
+      bombardment: player.stats.miniWins.bombardment,
+      chickenRings: player.stats.miniWins.chickenRings,
+      fireLeapers: player.stats.miniWins.fireLeapers,
+      hoeHoeHoe: player.stats.miniWins.hoeHoeHoe,
+      labEscape: player.stats.miniWins.labEscape,
+      pigFishing: player.stats.miniWins.pigFishing,
+      shootingRange: player.stats.miniWins.shootingRange,
       theFloorIsLava: player.stats.miniWins.theFloorIsLava,
-      trampolinio: player.stats.miniWins.trampolinio,
-      volcano: player.stats.miniWins.volcano,
       workshop: player.stats.miniWins.workshop
     },
     startX: 1657,
     endX: 2410,
-    startY: 980
+    startY: 1400
   });
 }
 
@@ -145,7 +153,7 @@ export async function createMiniWinsCanvas(name: string): Promise<Buffer | strin
   const player = response.data;
   const canvas = await initializePlayerCanvas();
   const ctx = canvas.getContext("2d");
-  drawUsername(ctx, player);
+  drawUsernameAndWins(ctx, player);
   drawFirstColumn(ctx, player);
   drawSecondColumn(ctx, player);
   drawThirdColumn(ctx, player);
