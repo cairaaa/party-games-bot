@@ -1,7 +1,8 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { AutocompleteInteraction, AttachmentBuilder } from "discord.js";
 import { Command } from "../types/Command";
-// add command for canvas later
+import { createLeaderboardsCanvas } from "../canvas/leaderboardsCanvas";
+import { LbType, Minigame } from "@shared-types/types";
 
 const leaderboardOptions = [
   { name: "Anvil Spleef Best Time", value: "anvilSpleef pbs" },
@@ -12,7 +13,7 @@ const leaderboardOptions = [
   { name: "Lab Escape Best Time", value: "labEscape pbs" },
   { name: "Minecart Racing Best Time", value: "minecartRacing pbs" },
   { name: "Spider Maze Best Time", value: "spiderMaze pbs" },
-  { name: "The Floor Is Lava Best Time", value: "theFloorIsLava pbs" },
+  { name: "The Floor is Lava Best Time", value: "theFloorIsLava pbs" },
   { name: "Animal Slaughter Best Score", value: "animalSlaughter pbs" },
   { name: "Dive Best Score", value: "dive pbs" },
   { name: "High Ground Best Score", value: "highGround pbs" },
@@ -42,7 +43,7 @@ const leaderboardOptions = [
   { name: "Shooting Range Wins", value: "shootingRange miniWins" },
   { name: "Spider Maze Wins", value: "spiderMaze miniWins" },
   { name: "Super Sheep Wins", value: "superSheep miniWins" },
-  { name: "The Floor Is Lava Wins", value: "theFloorIsLava miniWins" },
+  { name: "The Floor is Lava Wins", value: "theFloorIsLava miniWins" },
   { name: "Trampolinio Wins", value: "trampolinio miniWins" },
   { name: "Volcano Wins", value: "volcano miniWins" },
   { name: "Workshop Wins", value: "workshop miniWins" },
@@ -66,6 +67,25 @@ export const leaderboardsCommand: Command = {
       .setAutocomplete(true)
     ),
   async execute(interaction: ChatInputCommandInteraction) {
+    try {
+      const response = interaction.options.getString("leaderboard", true);
+      const [minigame, lbType] = response.split(" ", 2);
+      const imageBuffer = await createLeaderboardsCanvas(
+        minigame as Minigame, lbType as LbType
+      );
+      if (typeof imageBuffer === "string") {
+        await interaction.reply(imageBuffer);
+        return;
+      }
+      const attachment = new AttachmentBuilder(
+        imageBuffer, 
+        { name: `${minigame}-${lbType}.jpg` }
+      );
+      await interaction.reply({ files: [attachment] });
+    } catch (error) {
+      console.log(error);
+      await interaction.reply("There was an error while getting the leaderboard");
+    }
   },
   async autocomplete(interaction: AutocompleteInteraction) {
     const focused = interaction.options.getFocused().toLowerCase();
