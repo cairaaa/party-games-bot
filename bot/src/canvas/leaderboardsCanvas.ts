@@ -24,43 +24,64 @@ function drawTitle(
 };
 
 function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): void {
-  ctx.font = "55px Regular";
+  const start = 455;
+  const spacing = 945/11;
+  const columnPositions = [175, 928, 1682];
+  const valuePositions = [878, 1657, 2335];
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "start";
+  
+  for (let i = 0; i < 36; i++) {
+    const rank = i + 1;
+    const player = lb.players[i];
+    const columnIndex = Math.floor(i / 12);
+    const rowIndex = i % 12;
+    const x = columnPositions[columnIndex];
+    const y = start + spacing * rowIndex;
 
-  const start = 455;
-  const spacing = 105;
-  for (let i = 0; i < 10; i++) {
-    const rank = i + 1;
-    const player = lb.players[i];
-    ctx.fillText(`${rank}. ${player.username}`, 175, start + spacing * i);
+    ctx.font = "50px Regular";
+    const name = player.username;
+    const nameLength = ctx.measureText(player.username).width;
+    console.log(nameLength);
+    const value = String(player.value);
+    const valueLength = value.length * 30;
+    
+    if (nameLength > 350 && valueLength >= 210 || 
+      nameLength > 375 && valueLength >= 180 ||
+      nameLength > 400 && valueLength >= 150 ||
+      nameLength > 425 && valueLength >= 120 ||
+      nameLength > 450 && valueLength >= 90 ||
+      nameLength > 475 && valueLength >= 60
+    ) {
+      console.log("e", nameLength, valueLength);
+      // if (nameLength > 500) {
+      //   ctx.font = "32px Regular";
+      // } else if (nameLength > 450) {
+      //   ctx.font = "36px Regular";
+      // } else if (nameLength > 420) {
+      //   ctx.font = "40px Regular";
+      // } else {
+      //   ctx.font = "45px Regular";
+      // }
+    }
+    ctx.fillText(`${rank}. ${player.username}`, x, y);
   }
-  for (let i = 10; i < 20; i++) {
-    const rank = i + 1;
-    const player = lb.players[i];
-    ctx.fillText(`${rank}. ${player.username}`, 928, start + spacing * (i-10));
-  }
-  for (let i = 20; i < 30; i++) {
-    const rank = i + 1;
-    const player = lb.players[i];
-    ctx.fillText(`${rank}. ${player.username}`, 1682, start + spacing * (i-20));
-  }
-
-  ctx.font = "55px Monospace";
+  
+  ctx.font = "50px Monospace";
   ctx.fillStyle = colour.white;
   ctx.textAlign = "end";
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 12; i++) {
     const player = lb.players[i];
-    ctx.fillText(`${player.value}`, 878, start + spacing * i);
+    ctx.fillText(`${player.value}`, valuePositions[0], start + spacing * i);
   }
-  for (let i = 10; i < 20; i++) {
+  for (let i = 12; i < 24; i++) {
     const player = lb.players[i];
-    ctx.fillText(`${player.value}`, 1657, start + spacing * (i-10));
+    ctx.fillText(`${player.value}`, valuePositions[1], start + spacing * (i-12));
   }
-  for (let i = 20; i < 30; i++) {
+  for (let i = 24; i < 36; i++) {
     const player = lb.players[i];
-    ctx.fillText(`${player.value}`, 2335, start + spacing * (i-20));
+    ctx.fillText(`${player.value}`, valuePositions[2], start + spacing * (i-24));
   }
 }
 
@@ -85,4 +106,4 @@ export async function createLeaderboardsCanvas(
 import { registerFonts } from "../services/registerFonts";
 import fs from "fs";
 registerFonts();
-await createLeaderboardsCanvas("jigsawRush", "miniWins");
+await createLeaderboardsCanvas("rpg16", "pbs");
