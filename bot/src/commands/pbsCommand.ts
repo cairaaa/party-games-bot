@@ -11,7 +11,6 @@ export const pbsCommand: Command = {
       .setDescription("enter a player")
       .setRequired(true)
     ),
-  
   async execute(interaction: ChatInputCommandInteraction) {
     try {
       const name = interaction.options.getString("player", true);
