@@ -54,7 +54,7 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
     }
     ctx.fillText(`${rank}.`, x + 50, y);
     let value: string;
-    if ( lb.type === "pbs" &&
+    if (lb.type === "pbs" &&
       (lb.minigame === "animalSlaughter" ||
       lb.minigame === "dive" ||
       lb.minigame === "highGround" ||
@@ -67,7 +67,6 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
       value = String(player.value.toFixed(3));
     }
     const valueDigits = value.length;
-
     const valueWidth = valueDigits * pixelsPerDigit;
     const maxUsernameWidth = baseUsernameWidth + (150 - valueWidth);
     const adjustedUsernameWidth = Math.max(250, Math.min(450, maxUsernameWidth));
@@ -78,7 +77,6 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
     
     const username = player.username;
     let nameWidth = ctx.measureText(username).width;
-
     if (nameWidth > adjustedUsernameWidth) {
       if (nameWidth > adjustedUsernameWidth * 1.5) {
         ctx.font = "32px Regular";
@@ -92,7 +90,6 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
       }
       nameWidth = ctx.measureText(username).width;
     }
-    
     ctx.fillText(username, x + 70, y);
     ctx.font = "50px Monospace";
     ctx.fillStyle = colour.white;
