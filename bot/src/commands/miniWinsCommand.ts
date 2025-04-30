@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder } f
 import { Command } from "../types/Command";
 import { createMiniWinsCanvas } from "../canvas/miniWinsCanvas";
 
-export const miniWinsCanvas: Command = {
+export const miniWinsCommand: Command = {
   data: new SlashCommandBuilder()
     .setName("mini")
     .setDescription("get minigame wins")
