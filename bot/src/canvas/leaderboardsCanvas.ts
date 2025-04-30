@@ -54,13 +54,17 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
     }
     ctx.fillText(`${rank}.`, x + 50, y);
     let value: string;
-    if (lb.type === "pbs" &&
-      (lb.minigame === "animalSlaughter" ||
-      lb.minigame === "dive" ||
-      lb.minigame === "highGround" ||
-      lb.minigame === "hoeHoeHoe" || 
-      lb.minigame === "lawnMoower" ||
-      lb.minigame === "rpg16")
+    if (
+      lb.type === "miniWins" ||
+      lb.type === "totals" ||
+      (lb.type === "pbs" &&
+        (lb.minigame === "animalSlaughter" ||
+        lb.minigame === "dive" ||
+        lb.minigame === "highGround" ||
+        lb.minigame === "hoeHoeHoe" || 
+        lb.minigame === "lawnMoower" ||
+        lb.minigame === "rpg16")
+      )
     ) {
       value = String(player.value);
     } else {
