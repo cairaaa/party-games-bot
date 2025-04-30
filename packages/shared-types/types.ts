@@ -76,3 +76,11 @@ export function isAscending(minigame: Minigame): boolean {
   ];
   return minigames.includes(minigame);
 }
+
+export function isMinigame(minigame: string): boolean {
+  return (minigamesArray as readonly string[]).includes(minigame);
+}
+
+export function isLbType(lbType: string): boolean {
+  return (lbTypesArray as readonly string[]).includes(lbType);
+}
