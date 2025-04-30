@@ -86,7 +86,6 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
         ctx.font = "40px Regular";
       } else {
         ctx.font = "45px Regular";
-        console.log(username);
       }
       nameWidth = ctx.measureText(username).width;
     }
