@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { AutocompleteInteraction, AttachmentBuilder } from "discord.js";
 import { Command } from "../types/Command";
 import { createLeaderboardsCanvas } from "../canvas/leaderboardsCanvas";
-import { LbType, Minigame } from "@shared-types/types";
+import { isLbType, isMinigame, LbType, Minigame } from "@shared-types/types";
 import { leaderboardOptions } from "../types/leaderboardOptions";
 
 export const leaderboardsCommand: Command = {
@@ -19,6 +19,10 @@ export const leaderboardsCommand: Command = {
     try {
       const response = interaction.options.getString("leaderboard", true);
       const [minigame, lbType] = response.split(" ", 2);
+      if (!isMinigame(minigame) || !isLbType(lbType)) {
+        await interaction.reply("invalid lb");
+        return;
+      }
       const imageBuffer = await createLeaderboardsCanvas(
         minigame as Minigame, lbType as LbType
       );
