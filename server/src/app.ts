@@ -33,7 +33,7 @@ app.use((_req: Request, res: Response<ApiResponse<void>>) => {
   });
 });
 
-export const connect = async (): Promise<void> => {
+const connect = async (): Promise<void> => {
   try {
     await connectToDatabase();
     app.listen(PORT, () => {
