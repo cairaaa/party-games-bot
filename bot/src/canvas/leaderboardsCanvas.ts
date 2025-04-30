@@ -26,62 +26,78 @@ function drawTitle(
 function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): void {
   const start = 455;
   const spacing = 945/11;
-  const columnPositions = [175, 928, 1682];
-  const valuePositions = [878, 1657, 2335];
+  const columnPositions = [235, 988, 1742];
+  const valuePositions = [835, 1585, 2335];
+  const baseUsernameWidth = 350;
+  const pixelsPerDigit = 30;
   ctx.fillStyle = colour.lightGreen;
-  ctx.textAlign = "start";
   
   for (let i = 0; i < 36; i++) {
-    const rank = i + 1;
     const player = lb.players[i];
     const columnIndex = Math.floor(i / 12);
     const rowIndex = i % 12;
     const x = columnPositions[columnIndex];
     const y = start + spacing * rowIndex;
+    const valueX = valuePositions[columnIndex];
 
-    ctx.font = "50px Regular";
-    const name = player.username;
-    const nameLength = ctx.measureText(player.username).width;
-    console.log(nameLength);
-    const value = String(player.value);
-    const valueLength = value.length * 30;
-    
-    if (nameLength > 350 && valueLength >= 210 || 
-      nameLength > 375 && valueLength >= 180 ||
-      nameLength > 400 && valueLength >= 150 ||
-      nameLength > 425 && valueLength >= 120 ||
-      nameLength > 450 && valueLength >= 90 ||
-      nameLength > 475 && valueLength >= 60
-    ) {
-      console.log("e", nameLength, valueLength);
-      // if (nameLength > 500) {
-      //   ctx.font = "32px Regular";
-      // } else if (nameLength > 450) {
-      //   ctx.font = "36px Regular";
-      // } else if (nameLength > 420) {
-      //   ctx.font = "40px Regular";
-      // } else {
-      //   ctx.font = "45px Regular";
-      // }
+    ctx.font = "50px Monospace";
+    ctx.textAlign = "end";
+    const rank = (columnIndex * 12) + rowIndex + 1;
+    if (rank === 1) {
+      ctx.fillStyle = colour.gold;
+    } else if (rank === 2) {
+      ctx.fillStyle = colour.silver;
+    } else if (rank === 3) {
+      ctx.fillStyle = colour.bronze;
+    } else {
+      ctx.fillStyle = colour.lightGreen;
     }
-    ctx.fillText(`${rank}. ${player.username}`, x, y);
-  }
-  
-  ctx.font = "50px Monospace";
-  ctx.fillStyle = colour.white;
-  ctx.textAlign = "end";
+    ctx.fillText(`${rank}.`, x + 50, y);
+    let value: string;
+    if ( lb.type === "pbs" &&
+      (lb.minigame === "animalSlaughter" ||
+      lb.minigame === "dive" ||
+      lb.minigame === "highGround" ||
+      lb.minigame === "hoeHoeHoe" || 
+      lb.minigame === "lawnMoower" ||
+      lb.minigame === "rpg16")
+    ) {
+      value = String(player.value);
+    } else {
+      value = String(player.value.toFixed(3));
+    }
+    const valueDigits = value.length;
 
-  for (let i = 0; i < 12; i++) {
-    const player = lb.players[i];
-    ctx.fillText(`${player.value}`, valuePositions[0], start + spacing * i);
-  }
-  for (let i = 12; i < 24; i++) {
-    const player = lb.players[i];
-    ctx.fillText(`${player.value}`, valuePositions[1], start + spacing * (i-12));
-  }
-  for (let i = 24; i < 36; i++) {
-    const player = lb.players[i];
-    ctx.fillText(`${player.value}`, valuePositions[2], start + spacing * (i-24));
+    const valueWidth = valueDigits * pixelsPerDigit;
+    const maxUsernameWidth = baseUsernameWidth + (150 - valueWidth);
+    const adjustedUsernameWidth = Math.max(250, Math.min(450, maxUsernameWidth));
+
+    ctx.fillStyle = colour.lightGreen;
+    ctx.textAlign = "start";
+    ctx.font = "50px Regular";
+    
+    const username = player.username;
+    let nameWidth = ctx.measureText(username).width;
+
+    if (nameWidth > adjustedUsernameWidth) {
+      if (nameWidth > adjustedUsernameWidth * 1.5) {
+        ctx.font = "32px Regular";
+      } else if (nameWidth > adjustedUsernameWidth * 1.3) {
+        ctx.font = "36px Regular";
+      } else if (nameWidth > adjustedUsernameWidth * 1.1) {
+        ctx.font = "40px Regular";
+      } else {
+        ctx.font = "45px Regular";
+        console.log(username);
+      }
+      nameWidth = ctx.measureText(username).width;
+    }
+    
+    ctx.fillText(username, x + 70, y);
+    ctx.font = "50px Monospace";
+    ctx.fillStyle = colour.white;
+    ctx.textAlign = "end";
+    ctx.fillText(`${value}`, valueX, y);
   }
 }
 
@@ -99,11 +115,5 @@ export async function createLeaderboardsCanvas(
   drawTitle(ctx, minigame, lbType);
   drawPlayers(ctx, lb);
   const buffer = canvas.toBuffer("image/jpeg");
-  fs.writeFileSync("./src/canvas/output.png", buffer);
   return buffer;
 };
-
-import { registerFonts } from "../services/registerFonts";
-import fs from "fs";
-registerFonts();
-await createLeaderboardsCanvas("rpg16", "pbs");
