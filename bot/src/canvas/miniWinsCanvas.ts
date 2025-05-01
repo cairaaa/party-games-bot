@@ -35,7 +35,7 @@ function drawColumn(
   const spacingY = options.spacingY || 105;
   const spacingX = 25;
 
-  ctx.font = "55px Bold";
+  ctx.font = "55px Regular";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "start";
 
