@@ -43,7 +43,7 @@ export async function getPlayerDatabase(name: string): Promise<ApiResponse<Playe
     return {
       success: false,
       error: {
-        message: "The player is not in the database, please call on the hypixel api",
+        message: "The player is not in the database",
         code: "INVALID_PLAYER"
       }
     };
@@ -64,7 +64,7 @@ export async function getPlayerDatabaseRecent(name: string): Promise<ApiResponse
     return {
       success: false,
       error: {
-        message: "The player is not in the database, please call on the hypixel api",
+        message: "The player is not in the database",
         code: "INVALID_PLAYER"
       }
     };
