@@ -42,12 +42,12 @@ export const leaderboardOptions = [
   { name: "Volcano Wins", value: "volcano miniWins" },
   { name: "Workshop Wins", value: "workshop miniWins" },
 
-  { name: "Animal Slaughter Total Score", value: "animalSlaughter totals" },
+  { name: "Animal Slaughter Total Kills", value: "animalSlaughter totals" },
   { name: "Dive Total Score", value: "dive totals" },
   { name: "High Ground Total Score", value: "highGround totals" },
   { name: "Hoe Hoe Hoe Total Score", value: "hoeHoeHoe totals" },
   { name: "Lawn Moower Total Score", value: "lawnMoower totals" },
-  { name: "Rpg-16 Total Score", value: "rpg16 totals" }
+  { name: "Rpg-16 Total Kills", value: "rpg16 totals" }
 ];
 
 export const leaderboardTitles = new Map<string, string>(
