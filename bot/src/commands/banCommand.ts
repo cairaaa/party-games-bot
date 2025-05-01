@@ -1,7 +1,10 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import dotenv from "dotenv";
 import { Command } from "../types/Command";
 import { callBans } from "../services/callServer";
 import { isLbType, isMinigame, LbType, Minigame } from "@shared-types/types";
+
+dotenv.config();
 
 export const banCommand: Command = {
   data: new SlashCommandBuilder()
@@ -19,6 +22,12 @@ export const banCommand: Command = {
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     try {
+      const allowedIds = process.env.ALLOWED_IDS?.split(",") ?? [];
+      if (!allowedIds.includes(interaction.user.id)) {
+        await interaction.reply("You don't have permission to use this command");
+        return;
+      }
+
       let name = interaction.options.getString("player", true);
       const [realName, banType] = name.split(" ", 2);
       let ban: "ban" | "unban";
@@ -61,7 +70,7 @@ export const banCommand: Command = {
       }
     } catch (error) {
       console.log(error);
-      await interaction.reply("There was an error while banning the player");
+      await interaction.reply("There was an error while banning/unbanning the player");
     }
   }
 };
