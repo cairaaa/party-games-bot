@@ -4,5 +4,6 @@ export enum colour {
   lightGreen = "#c9f5de",
   gold = "#ffbf00",
   silver = "#d2d3d4",
-  bronze = "#dea474"
+  bronze = "#dea474",
+  red = "#e38e8e"
 }
