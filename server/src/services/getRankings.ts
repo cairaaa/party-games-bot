@@ -1,10 +1,16 @@
 import { LeaderboardModel } from "../models/leaderboard";
 import { Minigame } from "@shared-types/types";
 import { ApiResponse, isAscending } from "@shared-types/types";
+import { getPlayerDatabase } from "./getPlayer";
 
 export interface RankingInterface {
   _id: string;
   username: string;
+  stats: {
+    wins: number;
+    rounds: number;
+    stars: number;
+  };
   rankings: RankingMinigameInterface[];
 }
 
@@ -97,9 +103,25 @@ export async function getRankings(name: string): Promise<ApiResponse<RankingInte
         return a.place - b.place;
       }
     });
+    const playerResponse = await getPlayerDatabase(name);
+    if (!playerResponse.success) {
+      return {
+        success: false,
+        error: {
+          message: "Couldn't get rankings from the database",
+          code: "DATABASE_ERROR"
+        }
+      };
+    }
+    const player = playerResponse.data;
     const rankingsData = {
       _id: uuid,
       username: realUsername,
+      stats: {
+        wins: player.stats.wins,
+        rounds: player.stats.rounds,
+        stars: player.stats.stars
+      },
       rankings: rankings
     };
     return {
@@ -130,6 +152,11 @@ export async function getRealRankings(name: string): Promise<ApiResponse<Ranking
   const realData = {
     _id: rankingsResponse.data._id,
     username: rankingsResponse.data.username,
+    stats: {
+      wins: rankingsResponse.data.stats.wins,
+      rounds: rankingsResponse.data.stats.rounds,
+      stars: rankingsResponse.data.stats.stars
+    },
     rankings: realRankings
   };
   return {
