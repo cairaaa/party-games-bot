@@ -20,7 +20,7 @@ export const leaderboardsCommand: Command = {
       const response = interaction.options.getString("leaderboard", true);
       const [minigame, lbType] = response.split(" ", 2);
       if (!isMinigame(minigame) || !isLbType(lbType)) {
-        await interaction.reply("invalid lb");
+        await interaction.reply(`Couldn't find the ${response} leaderboard`);
         return;
       }
       const imageBuffer = await createLeaderboardsCanvas(

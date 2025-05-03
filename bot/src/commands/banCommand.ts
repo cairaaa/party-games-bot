@@ -55,7 +55,7 @@ export const banCommand: Command = {
             await interaction.reply(response.error.message);
           }
         } else {
-          await interaction.reply("Invalid leaderboard");
+          await interaction.reply(`Couldn't find the ${lb} leaderboard`);
         }
         return;
       }
