@@ -69,7 +69,7 @@ function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): voi
   const scoreSpacing = 125;
   const scoreStartY = 1400;
 
-  ctx.font = "75px Bold";
+  ctx.font = "75px Regular";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
@@ -123,7 +123,7 @@ function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void
   const timeSpacing = 125;
   const timeStartY = 1400;
 
-  ctx.font = "75px Bold";
+  ctx.font = "75px Regular";
   ctx.fillStyle = colour.lightGreen;
   ctx.textAlign = "end";
 
