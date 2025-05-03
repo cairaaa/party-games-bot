@@ -83,7 +83,7 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
     let nameWidth = ctx.measureText(username).width;
     if (nameWidth > adjustedUsernameWidth) {
       if (nameWidth > adjustedUsernameWidth * 1.5) {
-        ctx.font = "32px Regular";
+        ctx.font = "31px Regular";
       } else if (nameWidth > adjustedUsernameWidth * 1.3) {
         ctx.font = "36px Regular";
       } else if (nameWidth > adjustedUsernameWidth * 1.1) {
