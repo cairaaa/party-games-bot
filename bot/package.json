@@ -4,10 +4,10 @@
   "description": "",
   "main": "./src/bot.ts",
   "scripts": {
-    "test": "npx tsx ./test/index.ts",
     "deploy": "npx tsx ./src/services/deployCommands.ts",
     "dev": "npm run deploy && npx tsx ./src/bot.ts",
-    "start": "npx tsx ./src/bot.ts"
+    "start": "npx tsx ./src/bot.ts",
+    "test": "npx tsx ./test/index.ts"
   },
   "keywords": [],
   "author": "cai",
