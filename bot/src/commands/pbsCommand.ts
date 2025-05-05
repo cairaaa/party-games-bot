@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { AttachmentBuilder, InteractionContextType } from "discord.js";
 import { Command } from "../types/Command";
 import { createPbsCanvas } from "../canvas/pbCanvas";
 
@@ -10,6 +11,11 @@ export const pbsCommand: Command = {
       option.setName("player")
       .setDescription("enter a player")
       .setRequired(true)
+    )
+    .setContexts(
+      InteractionContextType.Guild, 
+      InteractionContextType.BotDM, 
+      InteractionContextType.PrivateChannel
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     try {

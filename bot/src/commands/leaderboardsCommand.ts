@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, InteractionContextType } from "discord.js";
 import { AutocompleteInteraction, AttachmentBuilder } from "discord.js";
 import { Command } from "../types/Command";
 import { createLeaderboardsCanvas } from "../canvas/leaderboardsCanvas";
@@ -14,6 +14,11 @@ export const leaderboardsCommand: Command = {
       .setDescription("enter a leaderboard")
       .setRequired(true)
       .setAutocomplete(true)
+    )
+    .setContexts(
+      InteractionContextType.Guild, 
+      InteractionContextType.BotDM, 
+      InteractionContextType.PrivateChannel
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     try {
