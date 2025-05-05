@@ -25,18 +25,18 @@ async function deployCommands(): Promise<void> {
         commands.push(command);
       }
     const rest = new REST().setToken(process.env.BOT_TOKEN);
-    await rest.put(
-      Routes.applicationGuildCommands(
-        process.env.CLIENT_ID, 
-        process.env.GUILD_ID
-      ),
-      { body: commands.map(c => c.data) }
-    );
-    // for global commands later
+    // for guild commands
     // await rest.put(
-    //   Routes.applicationCommands(process.env.CLIENT_ID),
+    //   Routes.applicationGuildCommands(
+    //     process.env.CLIENT_ID, 
+    //     process.env.GUILD_ID
+    //   ),
     //   { body: commands.map(c => c.data) }
     // );
+    await rest.put(
+      Routes.applicationCommands(process.env.CLIENT_ID),
+      { body: commands.map(c => c.data) }
+    );
     console.log("done :)");
   } catch (error) {
     console.log(error);
