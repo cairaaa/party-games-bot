@@ -12,7 +12,7 @@ function drawUsername(ctx: CanvasRenderingContext2D, player: RankingInterface): 
   ctx.fillText(player.username, 1280, 300);
 }
 
-function drawSide(ctx: CanvasRenderingContext2D, player: RankingInterface): void {
+function drawSideOld(ctx: CanvasRenderingContext2D, player: RankingInterface): void {
   const startX = 150;
   const endX = 1330;
   const center = (endX - startX)/2;
@@ -40,18 +40,21 @@ function drawSide(ctx: CanvasRenderingContext2D, player: RankingInterface): void
   ctx.fillText("Wins:", center, positions.winsLabel);
   ctx.fillText("Rounds:", center, positions.roundsLabel);
   ctx.fillText("Stars:", center, positions.starsLabel);
-  ctx.fillText("Average Ranking:", center, positions.avgLabel);
+  ctx.fillText("Ranking:", center, positions.avgLabel);
 
   ctx.font = "75px Monospace";
   ctx.fillStyle = colour.white;
 
   let average = 0;
+  let banned = 0;
   player.rankings.forEach((ranking) => {
     if (ranking.place) {
       average += ranking.place;
+    } else {
+      banned += 1;
     }
   });
-  average = Math.round(average / 11);
+  average = Math.round(average / (11 - banned));
 
   ctx.fillText(String(player.stats.wins), center, positions.winsValue);
   ctx.fillText(String(player.stats.rounds), center, positions.roundsValue);
@@ -59,9 +62,61 @@ function drawSide(ctx: CanvasRenderingContext2D, player: RankingInterface): void
   ctx.fillText(String(average), center, positions.avgValue);
 }
 
-function drawRankings(ctx: CanvasRenderingContext2D, player: RankingInterface): void {
-  const reverseRankings = [...player.rankings].reverse();
-  const startX = 1330;
+function drawSide(
+  ctx: CanvasRenderingContext2D, 
+  player: RankingInterface,
+  centerX: number,
+  centerY: number,
+  all: boolean = false
+): void {
+  const spacingX = 250;
+
+  ctx.font = "75px Bold";
+  ctx.fillStyle = colour.green;
+  ctx.textAlign = "center";
+  
+  ctx.fillText("Wins:", centerX - spacingX, centerY - 150);
+  ctx.fillText("Stars:", centerX - spacingX, centerY + 150);
+  ctx.fillText("Rounds:", centerX + spacingX, centerY - 150);
+  ctx.fillText("Average:", centerX + spacingX, centerY + 150);
+
+  ctx.font = "75px Monospace";
+  ctx.fillStyle = colour.white;
+
+  let average = 0;
+  let banned = 0;
+  player.rankings.forEach((ranking) => {
+    if (ranking.place) {
+      average += ranking.place;
+    } else {
+      banned += 1;
+    }
+  });
+  if (all) {
+    average = Math.round(average / (15 - banned));
+  } else {
+    average = Math.round(average / (11 - banned));
+  }
+  ctx.fillText(String(player.stats.wins), centerX - spacingX, centerY - 50);
+  ctx.fillText(String(player.stats.stars), centerX - spacingX, centerY + 250);
+  ctx.fillText(String(player.stats.rounds), centerX + spacingX, centerY - 50);
+  ctx.fillText(String(average), centerX + spacingX, centerY + 250);
+}
+
+function drawRankings(
+  ctx: CanvasRenderingContext2D, 
+  player: RankingInterface,
+  startX: number,
+  endValuesX: number,
+  values: number,
+  all: boolean = false
+): void {
+  let reverseRankings = [...player.rankings].reverse();
+  if (all && values === 11) {
+    reverseRankings = reverseRankings.slice(4, 15);
+  } else if (values === 4) {
+    reverseRankings = reverseRankings.slice(0, 4);
+  }
   const startY = 1400;
   const spacingY = (1400 - 455) / 10;
   ctx.font = "50px Monospace";
@@ -93,7 +148,6 @@ function drawRankings(ctx: CanvasRenderingContext2D, player: RankingInterface): 
     ctx.fillText(minigameName!.name, minigameX, startY - spacingY * index);
   });
 
-  const endValuesX = 2410;
   ctx.font = "50px Monospace";
   ctx.fillStyle = colour.white;
   ctx.textAlign = "right";
@@ -102,17 +156,31 @@ function drawRankings(ctx: CanvasRenderingContext2D, player: RankingInterface): 
   });
 }
 
-export async function createRankingsCanvas(name: string): Promise<Buffer | string> {
-  const response = await callRankings(name);
-    if (!response.success) {
-      return response.error.message;
-    }
-    const player = response.data;
-    const canvas = await initializePlayerCanvas();
-    const ctx = canvas.getContext("2d");
-    drawUsername(ctx, player);
-    drawSide(ctx, player);
-    drawRankings(ctx, player);
-    const buffer = canvas.toBuffer("image/jpeg");
-    return buffer;
+export async function createRankingsCanvas(
+  name: string, 
+  all: boolean = false
+): Promise<Buffer | string> {
+  let response;
+  if (all) {
+    response = await callRankings(name, true);
+  } else {
+    response = await callRankings(name);
+  }
+  if (!response.success) {
+    return response.error.message;
+  }
+  const player = response.data;
+  const canvas = await initializePlayerCanvas();
+  const ctx = canvas.getContext("2d");
+  drawUsername(ctx, player);
+  if (all) {
+    drawRankings(ctx, player, 150, 1230, 11, true);
+    drawSide(ctx, player, 1845, 738.5 - 50, true);
+    drawRankings(ctx, player, 1330, 2410, 4);
+  } else {
+    drawSide(ctx, player, 715, 927.5 - 50);
+    drawRankings(ctx, player, 1330, 2410, 11);
+  }
+  const buffer = canvas.toBuffer("image/jpeg");
+  return buffer;
 }
