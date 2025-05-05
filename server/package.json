@@ -5,6 +5,7 @@
   "main": "./src/app.ts",
   "scripts": {
     "dev": "npx tsx watch ./src/app.ts",
+    "start": "npx tsx ./src/app.ts",
     "test": "npx tsx ./test/index.ts"
   },
   "keywords": [],
