@@ -50,7 +50,7 @@ function drawPlayers(ctx: CanvasRenderingContext2D, lb: LeaderboardInterface): v
     } else if (rank === 3) {
       ctx.fillStyle = colour.bronze;
     } else {
-      ctx.fillStyle = colour.lightGreen;
+      ctx.fillStyle = colour.white;
     }
     ctx.fillText(`${rank}.`, x + 50, y);
     let value: string;
