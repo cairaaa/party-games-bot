@@ -14,7 +14,13 @@ export const rankingsCommand: Command = {
   async execute(interaction: ChatInputCommandInteraction) {
     try {
       const name = interaction.options.getString("player", true);
-      const imageBuffer = await createRankingsCanvas(name);
+      const [realName, all] = name.split(" ", 2);
+      let imageBuffer: Buffer | string;
+      if (all === "all") {
+        imageBuffer = await createRankingsCanvas(realName, true);
+      } else {
+        imageBuffer = await createRankingsCanvas(name);
+      }
       if (typeof imageBuffer === "string") {
         await interaction.reply(imageBuffer);
         return;
