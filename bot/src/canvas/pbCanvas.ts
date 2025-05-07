@@ -111,7 +111,7 @@ function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void
     "Jungle Jump:",
     "Lab Escape:",
     "Minecart Racing:",
-    "Spider Maze",
+    "Spider Maze:",
     "The Floor is Lava:"
   ];
   const timeValues = {
