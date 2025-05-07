@@ -69,14 +69,14 @@ function center(
 }
 
 function drawOnline(ctx: CanvasRenderingContext2D, player: StatusInterface): void {
-  center(ctx, "Last Login:", convertUnix(player.lastLogin), 700);
-  center(ctx, "Type:", player.gameType!, 850);
-  center(ctx, "Mode:", player.mode!, 1000);
+  center(ctx, "Last Login:", convertUnix(player.lastLogin), 800);
+  center(ctx, "Type:", player.gameType!, 950);
+  center(ctx, "Mode:", player.mode!, 1100);
 }
 
 function drawOffline(ctx: CanvasRenderingContext2D, player: StatusInterface): void {
-  center(ctx, "Last Login:", convertUnix(player.lastLogin), 700);
-  center(ctx, "Last Logout:", convertUnix(player.lastLogout!), 850);
+  center(ctx, "Last Login:", convertUnix(player.lastLogin), 875);
+  center(ctx, "Last Logout:", convertUnix(player.lastLogout!), 1025);
 }
 
 export async function createStatusCanvas(name: string): Promise<Buffer | string> {
