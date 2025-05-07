@@ -86,7 +86,7 @@ function drawSecondColumn(ctx: CanvasRenderingContext2D, player: PlayerInterface
     columnNames: [
       "Animal Slaughter:",
       "Avalanche:",
-      "Cannon Painting",
+      "Cannon Painting:",
       "Dive:",
       "High Ground:",
       "Jungle Jump:",
