@@ -36,30 +36,27 @@ function drawTitlesAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterfac
   const timesMetrics = ctx.measureText(timesTitle);
   const extraTimes = timesMetrics.actualBoundingBoxAscent;
   const timesY = 200 + extraTimes
-
   ctx.fillText(timesTitle, 1870, timesY);
 
+  const winsY = Math.floor((usernameY + 666) / 2);
   const winsX = 590;
   const winsText = "Wins:";
   const winsValue = String(player.stats.wins);
-
   ctx.font = "100px Bold";
   const winsTextWidth = ctx.measureText(winsText).width;
-
   ctx.font = "100px Monospace";
   const playerWinsWidth = ctx.measureText(winsValue).width;
-
   const totalWidth = winsTextWidth + playerWinsWidth + 50;
   const startX = winsX - (totalWidth / 2);
 
   ctx.font = "100px Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "left";
-  ctx.fillText(winsText, startX, 500);
+  ctx.fillText(winsText, startX, winsY);
 
   ctx.font = "100px Monospace";
   ctx.fillStyle = colour.white;
-  ctx.fillText(winsValue, startX + winsTextWidth + 50, 500);
+  ctx.fillText(winsValue, startX + winsTextWidth + 50, winsY);
 }
 
 function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
