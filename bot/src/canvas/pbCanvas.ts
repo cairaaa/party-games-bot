@@ -4,20 +4,40 @@ import { colour } from "../types/colours";
 import { PlayerInterface } from "@shared-types/interfaces";
 import { initializePlayerCanvas } from "../services/initializeCanvases";
 
-function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
+function drawTitlesAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
   let fontSize = 150;
+  let metrics;
   do {
     ctx.font = `${fontSize}px Bold`;
-    const textWidth = ctx.measureText(player.username).width;
-    if (textWidth <= 900) {
+    metrics = ctx.measureText(player.username);
+    if (metrics.width <= 900) {
       break;
     }
     fontSize -= 5;
   } while (fontSize > 1);
+
+  const extraUsername = metrics.actualBoundingBoxAscent;
+  const usernameY = 200 + extraUsername;
+
   ctx.font = `${fontSize}px Bold`;
   ctx.fillStyle = colour.white;
   ctx.textAlign = "center";
-  ctx.fillText(player.username, 590, 300);
+  ctx.fillText(player.username, 590, usernameY);
+
+  ctx.font = "100px Bold";
+  ctx.fillStyle = colour.green;
+  ctx.textAlign = "center";
+  ctx.fillText("Scores:", 590, 666);
+
+  ctx.font = "100px Bold";
+  ctx.fillStyle = colour.green;
+  ctx.textAlign = "center";
+  const timesTitle = "Times:";
+  const timesMetrics = ctx.measureText(timesTitle);
+  const extraTimes = timesMetrics.actualBoundingBoxAscent;
+  const timesY = 200 + extraTimes
+
+  ctx.fillText(timesTitle, 1870, timesY);
 
   const winsX = 590;
   const winsText = "Wins:";
@@ -35,19 +55,14 @@ function drawUsernameAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterf
   ctx.font = "100px Bold";
   ctx.fillStyle = colour.green;
   ctx.textAlign = "left";
-  ctx.fillText(winsText, startX, 475);
+  ctx.fillText(winsText, startX, 500);
 
   ctx.font = "100px Monospace";
   ctx.fillStyle = colour.white;
-  ctx.fillText(winsValue, startX + winsTextWidth + 50, 475);
+  ctx.fillText(winsValue, startX + winsTextWidth + 50, 500);
 }
 
 function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
-  ctx.font = "100px Bold";
-  ctx.fillStyle = colour.green;
-  ctx.textAlign = "center";
-  ctx.fillText("Scores:", 590, 650);
-
   const scoreNames = [
     "Animal Slaughter:",
     "Dive:",
@@ -91,11 +106,6 @@ function drawScores(ctx: CanvasRenderingContext2D, player: PlayerInterface): voi
 }
 
 function drawTimes(ctx: CanvasRenderingContext2D, player: PlayerInterface): void {
-  ctx.font = "100px Bold";
-  ctx.fillStyle = colour.green;
-  ctx.textAlign = "center";
-  ctx.fillText("Times:", 1870, 250);
-
   const timeNames = [
     "Anvil Spleef:",
     "Bombardment:",
@@ -152,7 +162,7 @@ export async function createPbsCanvas(name: string): Promise<Buffer | string> {
   const player = response.data;
   const canvas = await initializePlayerCanvas();
   const ctx = canvas.getContext("2d");
-  drawUsernameAndWins(ctx, player);
+  drawTitlesAndWins(ctx, player);
   drawScores(ctx, player);
   drawTimes(ctx, player);
   const buffer = canvas.toBuffer("image/jpeg");
