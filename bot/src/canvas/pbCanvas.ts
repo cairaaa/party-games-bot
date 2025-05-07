@@ -35,7 +35,7 @@ function drawTitlesAndWins(ctx: CanvasRenderingContext2D, player: PlayerInterfac
   const timesTitle = "Times:";
   const timesMetrics = ctx.measureText(timesTitle);
   const extraTimes = timesMetrics.actualBoundingBoxAscent;
-  const timesY = 200 + extraTimes
+  const timesY = 200 + extraTimes;
   ctx.fillText(timesTitle, 1870, timesY);
 
   const winsY = Math.floor((usernameY + 666) / 2);
