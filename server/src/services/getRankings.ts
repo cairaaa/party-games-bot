@@ -2,18 +2,7 @@ import { LeaderboardModel } from "../models/leaderboard";
 import { Minigame } from "@shared-types/types";
 import { ApiResponse, isAscending } from "@shared-types/types";
 import { getPlayerDatabase } from "./getPlayer";
-
-export interface RankingInterface {
-  _id: string;
-  username: string;
-  rankings: RankingMinigameInterface[];
-}
-
-interface RankingMinigameInterface {
-  minigame: Minigame;
-  place: number | null;
-  value: number | null;
-}
+import { RankingInterface, RankingMinigameInterface } from "@shared-types/interfaces";
 
 export async function getRankings(name: string): Promise<ApiResponse<RankingInterface>> {
   try {
