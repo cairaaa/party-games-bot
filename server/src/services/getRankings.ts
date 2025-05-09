@@ -6,11 +6,6 @@ import { getPlayerDatabase } from "./getPlayer";
 export interface RankingInterface {
   _id: string;
   username: string;
-  stats: {
-    wins: number;
-    rounds: number;
-    stars: number;
-  };
   rankings: RankingMinigameInterface[];
 }
 
@@ -117,11 +112,6 @@ export async function getRankings(name: string): Promise<ApiResponse<RankingInte
     const rankingsData = {
       _id: uuid,
       username: realUsername,
-      stats: {
-        wins: player.stats.wins,
-        rounds: player.stats.rounds,
-        stars: player.stats.stars
-      },
       rankings: rankings
     };
     return {
@@ -152,11 +142,6 @@ export async function getRealRankings(name: string): Promise<ApiResponse<Ranking
   const realData = {
     _id: rankingsResponse.data._id,
     username: rankingsResponse.data.username,
-    stats: {
-      wins: rankingsResponse.data.stats.wins,
-      rounds: rankingsResponse.data.stats.rounds,
-      stars: rankingsResponse.data.stats.stars
-    },
     rankings: realRankings
   };
   return {
