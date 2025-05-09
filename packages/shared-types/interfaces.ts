@@ -94,7 +94,7 @@ export interface StatusInterface {
   updatedAt?: Date;
 }
 
-interface RankingMinigameInterface {
+export interface RankingMinigameInterface {
   minigame: Minigame;
   place: number | null;
   value: number | null;
@@ -103,10 +103,5 @@ interface RankingMinigameInterface {
 export interface RankingInterface {
   _id: string;
   username: string;
-  stats: {
-    wins: number;
-    rounds: number;
-    stars: number;
-  };
   rankings: RankingMinigameInterface[];
 }
