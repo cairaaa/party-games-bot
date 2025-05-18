@@ -110,3 +110,8 @@ export interface RankingInterface {
   };
   rankings: RankingMinigameInterface[];
 }
+
+export interface PassInterface {
+  firstPlayer: PlayerInterface,
+  secondPlayer: PlayerInterface
+}
