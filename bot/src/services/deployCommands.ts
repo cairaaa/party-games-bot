@@ -26,16 +26,31 @@ async function deployCommands(): Promise<void> {
       }
     const rest = new REST().setToken(process.env.BOT_TOKEN);
     // for guild commands
-    // await rest.put(
-    //   Routes.applicationGuildCommands(
-    //     process.env.CLIENT_ID, 
-    //     process.env.GUILD_ID
-    //   ),
-    //   { body: commands.map(c => c.data) }
-    // );
+    await rest.put(
+      Routes.applicationGuildCommands(
+        process.env.CLIENT_ID, 
+        process.env.GUILD_ID
+      ),
+      { body: commands.map(c => c.data) }
+    );
+    // for global commands (only extras)
+    const global: Command[] = [];
+    // maybe move this later?
+    const globalFiles = [
+      "passPlayerCommand.ts", 
+      "passPlayerCommand.js"
+    ];
+    for (const file of commandFiles) {
+      if (globalFiles.includes(file)) {
+        const filePath = join(commandsPath, file);
+        const imported: Command = (await import(pathToFileURL(filePath).href));
+        const command: Command = Object.values(imported)[0];
+        global.push(command);
+      }
+    }
     await rest.put(
       Routes.applicationCommands(process.env.CLIENT_ID),
-      { body: commands.map(c => c.data) }
+      { body: global.map(c => c.data) }
     );
     console.log("done :)");
   } catch (error) {
