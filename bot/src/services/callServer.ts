@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { Minigame, LbType, ApiResponse } from "@shared-types/types";
 import { PlayerInterface, LeaderboardInterface } from "@shared-types/interfaces";
-import { StatusInterface, RankingInterface } from "@shared-types/interfaces";
+import { StatusInterface, RankingInterface, PassInterface } from "@shared-types/interfaces";
 
 dotenv.config();
 
@@ -103,6 +103,45 @@ export async function callBans(
         return (error.response.data);
       }
     }
+    return returnUnknown();
+  }
+}
+
+export async function callPass(names: string): Promise<ApiResponse<PassInterface>> {
+  try {
+    const [firstPlayer, secondPlayer] = names.split(" ");
+    if (!firstPlayer || !secondPlayer || (names.split(" ").length - 1) !== 1) {
+      return {
+        success: false,
+        error: {
+          message: "Please provide a valid input (2 usernames seperated by a space)",
+          code: "INVALID_PARAMS"
+        }
+      };
+    }
+    const response = await Promise.all([
+      callPlayer(firstPlayer),
+      callPlayer(secondPlayer)
+    ]);
+    if (response[0].success && response[1].success) {
+      const firstPlayer = response[0].data;
+      const secondPlayer = response[1].data;
+      return {
+        success: true,
+        data: {
+          firstPlayer,
+          secondPlayer
+        }
+      };
+    } else if (!response[0].success) {
+      return response[0];
+    } else if (!response[1].success) {
+      return response[1];
+    } else {
+      return returnUnknown();
+    }
+  } catch (error) {
+    console.log(error);
     return returnUnknown();
   }
 }
