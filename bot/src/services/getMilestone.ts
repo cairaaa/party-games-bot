@@ -6,7 +6,12 @@ export async function getMilestone(name: string): Promise<string> {
   if (!winsInterval) {
     realWinsInterval = 500;
   } else {
-    realWinsInterval = Number(winsInterval);
+    if (winsInterval.endsWith("k") || winsInterval.endsWith("K")) {
+      const numberPart = parseFloat(winsInterval.slice(0, -1));
+      realWinsInterval = numberPart * 1000;
+    } else {
+      realWinsInterval = Number(winsInterval);
+    }
   }
   if (isNaN(realWinsInterval) || (name.split(" ").length - 1) > 2) {
     return "Please provide a valid input (1 username with a number seperated by a space)";
