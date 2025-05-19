@@ -1,8 +1,7 @@
 import { callPlayer } from "./callServer";
 
 export async function getMilestone(name: string): Promise<string> {
-  const response = await callPlayer(name);
-  const [_player, winsInterval] = name.split(" ");
+  const [player, winsInterval] = name.split(" ");
   let realWinsInterval: number;
   if (!winsInterval) {
     realWinsInterval = 500;
@@ -12,6 +11,7 @@ export async function getMilestone(name: string): Promise<string> {
   if (isNaN(realWinsInterval) || (name.split(" ").length - 1) > 2) {
     return "Please provide a valid input (1 username with a number seperated by a space)";
   }
+  const response = await callPlayer(player);
   if (!response.success) {
     return response.error.message;
   }
