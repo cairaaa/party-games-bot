@@ -38,7 +38,9 @@ async function deployCommands(): Promise<void> {
     // maybe move this later?
     const globalFiles = [
       "passPlayerCommand.ts", 
-      "passPlayerCommand.js"
+      "passPlayerCommand.js",
+      "milestonesCommand.ts",
+      "milestonesCommand.js"
     ];
     for (const file of commandFiles) {
       if (globalFiles.includes(file)) {
