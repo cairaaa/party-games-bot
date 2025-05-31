@@ -6,34 +6,11 @@ import { Minigame } from "@shared-types/types";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const imageCache = new Map<string, Image>();
-const maxCache = 31;
-
-async function getCachedImage(imagePath: string): Promise<Image> {
-  if (imageCache.has(imagePath)) {
-    return imageCache.get(imagePath)!;
-  }
-  if (imageCache.size >= maxCache) {
-    const firstKey = imageCache.keys().next().value;
-    if (firstKey) {
-      imageCache.delete(firstKey);
-    }
-  } 
-  try {
-    const image = await loadImage(imagePath);
-    imageCache.set(imagePath, image);
-    return image;
-  } catch (error) {
-    console.error(`failed to load image: ${imagePath}`, error);
-    throw error;
-  }
-}
-
 export async function initializePlayerCanvas(): Promise<Canvas> {
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   const imagePath = path.resolve(__dirname, `../../public/images-new/start-${randomNumber}.jpg`);
   try {
-    const image = await getCachedImage(imagePath);
+    const image = await loadImage(imagePath);
     const canvas = new Canvas(image.width, image.height);
     const ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
@@ -77,7 +54,7 @@ export async function initializeLeaderboardCanvas(minigame: Minigame): Promise<C
   const minigameImage = minigamesMap[minigame];
   const imagePath = path.resolve(__dirname, `../../public/images-new/${minigameImage}.jpg`);
   try {
-    const image = await getCachedImage(imagePath);
+    const image = await loadImage(imagePath);
     const canvas = new Canvas(image.width, image.height);
     const ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
