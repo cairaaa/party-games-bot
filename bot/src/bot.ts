@@ -39,8 +39,9 @@ const eventFiles = (fs.readdirSync(eventsPath)).filter(file =>
 
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
-  const event = (await import(filePath)).default || Object.values(await import(filePath))[0];
-  
+  const imported = await import(filePath);
+  const event = imported.default || Object.values(imported)[0];
+
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
